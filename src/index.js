@@ -5,8 +5,11 @@ import './index.scss';
 import App from './components/App';
 import Root from './Root'
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter } from 'react-router-dom';
+import 'semantic-ui-css/semantic.min.css';
+import './index.scss';
 
-ReactDOM.render(<Root><App /></Root>, document.getElementById('root'));
+ReactDOM.render(<Root><BrowserRouter><App /></BrowserRouter></Root>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

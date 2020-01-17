@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import Shelf from './Shelf'
+import StudentListPage from './Shelf/StudentListPage';
+import { NavLink, Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
+import NewStudentPage from './NewStudentPage';
+import EditStudentPage from './EditStudentPage';
+import ContactListPage from './ContactListPage';
 
-const App = () => (
+class App extends Component {
 
-  <React.Fragment> 
-   <main>
-    <Shelf/>
-   </main>
-  </React.Fragment>
+  render() {
 
-)
+    return (<Container>
 
+      <div className="ui two item menu">
+        <NavLink className="item" activeClassName="active" exact to="/">
+          Student List
+          </NavLink>
+        <NavLink className="item" activeClassName="active" exact to="/students/new">
+          Add Student
+          </NavLink>
+      </div>
+
+      <Route exact path="/" component={StudentListPage}/>
+      <Route path="/students/new" component={NewStudentPage}/>
+      <Route path="/students/edit/:_id" component={EditStudentPage}/>
+
+    </Container>)
+  }
+}
 export default App;

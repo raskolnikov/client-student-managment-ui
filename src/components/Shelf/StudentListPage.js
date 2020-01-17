@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ProductList from './ProductList'
+import StudentList from './StudentList'
 
 
 import { fetchProducts } from '../../services/shelf/actions';
 
 import './style.scss';
+import { Card } from 'semantic-ui-react';
 
-class Shelf extends Component {
+class StudentListPage extends Component {
     static propTypes = {
         fetchProducts: PropTypes.func.isRequired,
         products: PropTypes.array.isRequired
@@ -40,11 +41,9 @@ class Shelf extends Component {
         return (
             <React.Fragment>
                 {isLoading}
-                <div className="shelf-container">
-
-                    <ProductList products={products}></ProductList>
-
-                </div>
+                <Card.Group>
+                    <StudentList products={products}></StudentList>
+                </Card.Group>
             </React.Fragment>
 
         )
@@ -53,10 +52,10 @@ class Shelf extends Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.shelf.products
+    products: state.shelf.products
 });
 
 export default connect(
-  mapStateToProps,
-  { fetchProducts }
-)(Shelf);
+    mapStateToProps,
+    { fetchProducts }
+)(StudentListPage);

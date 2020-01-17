@@ -1,7 +1,7 @@
 import { FETCH_PRODUCTS } from './actionTypes';
 import axios from 'axios';
-
-import { productsAPI } from '../util';
+import { client } from '../util';
+import { url } from 'inspector';
 
 const compare = {
 
@@ -18,8 +18,33 @@ const compare = {
     }
 }
 
+export const productsAPI = '/students';
+
+export function newStudent() {
+
+    return dispatch => {
+        
+        return dispatch({
+            type: 'NEW_STUDENT'
+        })
+    }
+
+}
+
+export function saveStudent(student) {
+
+    return dispatch => {
+
+        return dispatch({
+            type: 'SAVE_STUDENT',
+            payload: client.post(url, student)
+        })
+    }
+
+}
+
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
-    return axios
+    return client
         .get(productsAPI)
         .then(res => {
             let products = res.data;
