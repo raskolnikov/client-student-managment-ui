@@ -5,7 +5,6 @@ import { NavLink, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import NewStudentPage from './NewStudentPage';
 import EditStudentPage from './EditStudentPage';
-import ContactListPage from './ContactListPage';
 
 class App extends Component {
 
@@ -24,7 +23,7 @@ class App extends Component {
 
       <Route exact path="/" component={StudentListPage}/>
       <Route path="/students/new" component={NewStudentPage}/>
-      <Route path="/students/edit/:_id" component={EditStudentPage}/>
+      <Route path="/students/edit/:id" component={NewStudentPage}/>
 
     </Container>)
   }

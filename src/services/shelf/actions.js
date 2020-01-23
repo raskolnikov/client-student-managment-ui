@@ -1,7 +1,7 @@
 import { FETCH_PRODUCTS } from './actionTypes';
 import axios from 'axios';
 import { client } from '../util';
-import { url } from 'inspector';
+
 
 const compare = {
 
@@ -23,7 +23,7 @@ export const productsAPI = '/students';
 export function newStudent() {
 
     return dispatch => {
-        
+
         return dispatch({
             type: 'NEW_STUDENT'
         })
@@ -34,18 +34,52 @@ export function newStudent() {
 export function saveStudent(student) {
 
     return dispatch => {
+        return dispatch({
+          type: 'SAVE_STUDENT',
+          payload: client.post(productsAPI + "/", student)
+        })
+      }
+}
+
+export function fetchStudent(id) {
+
+    return dispatch => {
+        return dispatch({
+            type: 'FETCH_STUDENT',
+            payload: client.get(`${productsAPI}/${id}`)
+        })
+
+    }
+    
+}
+
+export function updateStudent(student) {
+
+    return dispatch => {
 
         return dispatch({
-            type: 'SAVE_STUDENT',
-            payload: client.post(url, student)
+            type: 'UPDATE_STUDENT',
+            payload: client.put(`${productsAPI}/${student.id}`, student )
         })
     }
+    
+}
 
+export function deleteStudent(id) {
+
+    return dispatch => {
+
+        return dispatch({
+            type: 'DELETE_STUDENT',
+            payload: client.delete(`${productsAPI}/${id}`)
+        })
+    }
+    
 }
 
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
     return client
-        .get(productsAPI)
+        .get(productsAPI + "/")
         .then(res => {
             let products = res.data;
 

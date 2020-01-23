@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, Button, Icon } from 'semantic-ui-react';
 
 
-const StudentCard = ({ product: student }) => {
+const StudentCard = ({ product: student, deleteStudent }) => {
 
   return (
 
@@ -12,7 +12,7 @@ const StudentCard = ({ product: student }) => {
       <Card.Content>
 
         <Card.Header>
-          <Icon name='user outline' /> {student.name + ' ' + student.surname}
+          <Icon name='user outline' /> {student.firstName + ' ' + student.lastName}
         </Card.Header>
 
         <Card.Description>
@@ -25,8 +25,8 @@ const StudentCard = ({ product: student }) => {
       <Card.Content extra>
 
         <div className="ui two buttons">
-          <Button basic color="green">Edit</Button>
-          <Button basic color="red">Delete</Button>
+          <Link to={`/students/edit/${student.id}`} className="ui basic button green">Edit</Link>
+          <Button basic color="red" onClick={()=> deleteStudent(student.id)}>Delete</Button>
         </div>
 
       </Card.Content>

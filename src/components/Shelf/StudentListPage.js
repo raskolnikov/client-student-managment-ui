@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import StudentList from './StudentList'
 
 
-import { fetchProducts } from '../../services/shelf/actions';
+import { fetchProducts, deleteStudent } from '../../services/shelf/actions';
 
 import './style.scss';
 import { Card } from 'semantic-ui-react';
@@ -42,7 +42,7 @@ class StudentListPage extends Component {
             <React.Fragment>
                 {isLoading}
                 <Card.Group>
-                    <StudentList products={products}></StudentList>
+                    <StudentList products={products} deleteStudent={this.props.deleteStudent}></StudentList>
                 </Card.Group>
             </React.Fragment>
 
@@ -57,5 +57,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { fetchProducts }
+    { fetchProducts, deleteStudent }
 )(StudentListPage);
