@@ -50,7 +50,6 @@ export function fetchStudent(id) {
         })
 
     }
-    
 }
 
 export function updateStudent(student) {

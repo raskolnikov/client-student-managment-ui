@@ -16,7 +16,7 @@ const StudentCard = ({ product: student, deleteStudent }) => {
         </Card.Header>
 
         <Card.Description>
-          <p> <Icon name='phone' /> {student.phone}</p>
+          <p> <Icon name='phone' /> {student.mobileNumber}</p>
           <p> <Icon name='mail outline' />  {student.email} </p>
         </Card.Description>
 

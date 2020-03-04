@@ -50,9 +50,9 @@ export default function (state = initialState, action) {
 
             const data = action.payload.response.data;
 
-            const { firstName, lastName, phone, email } = data.errors;
+            const { firstName, lastName, mobileNumber, email } = data.errors;
 
-            const errors = { global: data.message, firstName, lastName, phone, email };
+            const errors = { global: data.message, firstName, lastName, mobileNumber, email };
 
 
             return {
@@ -117,9 +117,9 @@ export default function (state = initialState, action) {
         case 'UPDATE_STUDENT_REJECTED':{
 
             const data = action.payload.response.data;
-            const {firstName, lastName, phone, email} = data;
+            const {firstName, lastName, mobileNumber, email} = data;
 
-            const errors = { global: data.message, firstName, lastName, phone, email };
+            const errors = { global: data.message, firstName, lastName, mobileNumber, email };
 
             return {
                 ...state,
