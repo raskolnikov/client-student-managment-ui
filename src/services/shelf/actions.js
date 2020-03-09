@@ -1,6 +1,6 @@
 import { FETCH_PRODUCTS } from './actionTypes';
 import axios from 'axios';
-import { client } from '../util';
+import { client } from '../../utils/util';
 
 
 const compare = {
@@ -35,10 +35,10 @@ export function saveStudent(student) {
 
     return dispatch => {
         return dispatch({
-          type: 'SAVE_STUDENT',
-          payload: client.post(productsAPI + "/", student)
+            type: 'SAVE_STUDENT',
+            payload: client.post(productsAPI + "/", student)
         })
-      }
+    }
 }
 
 export function fetchStudent(id) {
@@ -58,10 +58,10 @@ export function updateStudent(student) {
 
         return dispatch({
             type: 'UPDATE_STUDENT',
-            payload: client.put(`${productsAPI}/${student.id}`, student )
+            payload: client.put(`${productsAPI}/${student.id}`, student)
         })
     }
-    
+
 }
 
 export function deleteStudent(id) {
@@ -73,7 +73,7 @@ export function deleteStudent(id) {
             payload: client.delete(`${productsAPI}/${id}`)
         })
     }
-    
+
 }
 
 export const fetchProducts = (filters, sortBy, callback) => dispatch => {
@@ -107,3 +107,21 @@ export const fetchProducts = (filters, sortBy, callback) => dispatch => {
             console.log('Could not fetch products. Try again later.');
         });
 };
+
+
+export const setTeachers = (teachers) => {
+
+    return {
+        type: "ACTION_TYPES.FETCH_DB_TEACHERS",
+        payload: teachers
+    }
+
+}
+
+export const removeTeachers = () => {
+
+    return {
+        type: "ACTION_TYPES.FETCH_DB_TEACHERS",
+    }
+
+}

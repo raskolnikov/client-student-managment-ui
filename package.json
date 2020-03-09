@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
     "auth0-js": "^9.12.2",
     "axios": "^0.18.1",
     "classnames": "^2.2.6",
