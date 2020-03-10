@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NewStudentForm from './NewStudentForm';
-import { newStudent, saveStudent, fetchStudent, updateStudent } from '../services/shelf/actions';
+import { newStudent, saveStudent, fetchStudent, updateStudent } from '../../services/shelf/actions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { SubmissionError } from 'redux-form';

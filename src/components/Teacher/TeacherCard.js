@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-const TeacherCard = ({ teacher }) => {
+const TeacherCard = ({ teacher, deleteTeacher }) => {
 
     return (
 
@@ -24,7 +24,7 @@ const TeacherCard = ({ teacher }) => {
 
                 <div className="ui two buttons">
                     <Link to={`/teachers/edit/${teacher.id}`} className="ui basic button green">Edit</Link>
-                    <Button basic color="red" onClick="">Delete</Button>
+                    <Button basic color="red" onClick={() => deleteTeacher(teacher)}>Delete</Button>
                 </div>
 
             </Card.Content>

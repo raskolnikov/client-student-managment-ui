@@ -1,4 +1,4 @@
-import { FETCH_PRODUCTS } from './actionTypes';
+import { FETCH_STUDENTS } from './actionTypes';
 import axios from 'axios';
 import { client } from '../../utils/util';
 
@@ -76,31 +76,14 @@ export function deleteStudent(id) {
 
 }
 
-export const fetchProducts = (filters, sortBy, callback) => dispatch => {
+export const fetchStudents = (filters, sortBy, callback) => dispatch => {
     return client
         .get(productsAPI + "/")
         .then(res => {
-            let products = res.data;
 
-            /*
-            if (!!filters && filters.length > 0) {
-                products = products.filter(p =>
-                    filters.find(f => p.availableSizes.find(size => size === f))
-                );
-            }
-
-            if (!!sortBy) {
-                products = products.sort(compare[sortBy]);
-            }
-
-            if (!!callback) {
-                callback();
-            }
-
-            */
             return dispatch({
-                type: FETCH_PRODUCTS,
-                payload: products
+                type: FETCH_STUDENTS,
+                payload: res.data
             });
         })
         .catch(err => {

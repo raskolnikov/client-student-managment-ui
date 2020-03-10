@@ -2,9 +2,9 @@ import React from 'react';
 import TeacherCard from './TeacherCard';
 
 
-const TeacherCardList = ({ teachers }) => {
+const TeacherCardList = ({ teachers, deleteTeacher }) => {
 
-    return teachers.map(teacher => <TeacherCard key={teacher.id} teacher={teacher} />);
+    return teachers.map(teacher => <TeacherCard key={teacher.id} teacher={teacher} deleteTeacher={deleteTeacher} />);
 
 }
 

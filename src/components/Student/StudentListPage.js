@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 
 import StudentList from './StudentList'
 
-
-import { fetchProducts, deleteStudent } from '../../services/shelf/actions';
+import { fetchStudents, deleteStudent } from '../../services/shelf/actions';
 
 import './style.scss';
 import { Card } from 'semantic-ui-react';
 
 class StudentListPage extends Component {
     static propTypes = {
-        fetchProducts: PropTypes.func.isRequired,
-        products: PropTypes.array.isRequired
+        fetchStudents: PropTypes.func.isRequired,
+        students: PropTypes.array.isRequired
     }
 
     state = {
@@ -21,28 +20,28 @@ class StudentListPage extends Component {
     }
 
     componentDidMount() {
-        this.handleFetchProducts();
+        this.handleFetchStudents();
     }
 
-    handleFetchProducts = () => {
+    handleFetchStudents = () => {
 
         this.setState({ isLoading: true });
 
-        this.props.fetchProducts(() => {
+        this.props.fetchStudents(() => {
             this.setState({ isLoading: false });
         })
     }
 
     render() {
 
-        const products = this.props.products;
+        const students = this.props.students;
         const isLoading = this.state.isLoading;
 
         return (
             <React.Fragment>
                 {isLoading}
                 <Card.Group>
-                    <StudentList products={products} deleteStudent={this.props.deleteStudent}></StudentList>
+                    <StudentList students={students} deleteStudent={this.props.deleteStudent}></StudentList>
                 </Card.Group>
             </React.Fragment>
 
@@ -52,10 +51,10 @@ class StudentListPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    products: state.shelf.products
+    students: state.shelf.students
 });
 
 export default connect(
     mapStateToProps,
-    { fetchProducts, deleteStudent }
+    { fetchStudents, deleteStudent }
 )(StudentListPage);

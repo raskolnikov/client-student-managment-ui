@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, Button, Icon } from 'semantic-ui-react';
 
 
-const StudentCard = ({ product: student, deleteStudent }) => {
+const StudentCard = ({ student, deleteStudent }) => {
 
   return (
 

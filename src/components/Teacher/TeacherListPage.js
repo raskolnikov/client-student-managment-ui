@@ -1,59 +1,57 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useReducer } from 'react';
 import Context from '../../utils/context';
 import { client } from '../../utils/util';
-import { productsAPI } from '../../services/shelf/actions';
 import TeacherCardList from './TeacherCardList';
 import { Card } from 'semantic-ui-react';
+import * as TeacherReducer from '../../services/shelf/TeacherReducer';
 
 
 const TeacherListPage = (posts) => {
 
     const context = useContext(Context);
 
-    const initalLocalState = {
-
-        teachers: [],
-        isLoading: false
-    };
-
-    const [stateLocal, setStateLocal] = useState(initalLocalState);
-
+    const [state, dispatch] = useReducer(TeacherReducer.TeacherReducer, TeacherReducer.initialState);
 
     useEffect(() => {
 
-        if (!context.teachersState) {
+        client.get("teachers/")
+            .then(res => {
+                
+                dispatch({
 
-            client.get("teachers/")
-                .then(res => {
+                    type: "ACTION_TYPES.FETCH_DB_TEACHERS",
+                    payload : res.data
 
-                    context.handleAddTeachers(res.data);
-
-                }).catch(err => {
-
-                    console.log(err);
                 })
 
-        }
+            }).catch(err => {
 
-        if (context.teachersState && !stateLocal.isLoading) {
+                console.log(err);
+            })
 
-            setStateLocal({
-                ...stateLocal,
-                isLoading: false,
-                teachers: context.teachersState
+
+    }, []);
+
+    const deleteTeacher = (teacher) => {
+
+        client.delete(`teachers/${teacher.id}`).then(res => {
+
+            dispatch({
+
+                type: "ACTION_TYPES.TEACHER_DELETED",
+                payload : teacher
 
             })
 
-        }
+        }).catch(err => {
 
+            console.log(err);
+        })
 
+    }
 
-    }, [context, stateLocal]);
-
-
-    const teachers = stateLocal.teachers;
-    const isLoading = stateLocal.isLoading;
-
+    const teachers = state.teachers;
+    const isLoading = state.isLoading;
 
 
     return (
@@ -61,7 +59,7 @@ const TeacherListPage = (posts) => {
         <React.Fragment>
             {isLoading}
             <Card.Group>
-                <TeacherCardList teachers={teachers} />
+                <TeacherCardList teachers={teachers} deleteTeacher={deleteTeacher} />
             </Card.Group>
         </React.Fragment>
 

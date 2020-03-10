@@ -1,7 +1,7 @@
-import { FETCH_PRODUCTS, NEW_STUDENT, NEW_STUDENT_PENDING, SAVE_STUDENT_FULFILLED, SAVE_STUDENT_REJECTED, FETCH_STUDENT_PENDING, FETCH_STUDENT_FULFILLED } from './actionTypes';
+import { FETCH_STUDENTS, NEW_STUDENT, NEW_STUDENT_PENDING, SAVE_STUDENT_FULFILLED, SAVE_STUDENT_REJECTED, FETCH_STUDENT_PENDING, FETCH_STUDENT_FULFILLED } from './actionTypes';
 
 const initialState = {
-    products: [],
+    students: [],
     student: {},
     loading: false,
     errors: {}
@@ -11,10 +11,10 @@ export default function (state = initialState, action) {
 
     switch (action.type) {
 
-        case FETCH_PRODUCTS: {
+        case FETCH_STUDENTS: {
             return {
                 ...state,
-                products: action.payload
+                students: action.payload
             };
         }
 
@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                products: [...state.products, action.payload],
+                students: [...state.students, action.payload],
                 errors: {},
                 loading: false
 
@@ -73,7 +73,7 @@ export default function (state = initialState, action) {
         }
 
         case 'FETCH_STUDENT_REJECTED': {
-            
+
             const errors = { global: action.payload };
 
             return {
@@ -95,29 +95,29 @@ export default function (state = initialState, action) {
         }
 
         case 'UPDATE_STUDENT_PENDING': {
-             return {
-                 ...state,
-                 loading: true
-             }
+            return {
+                ...state,
+                loading: true
+            }
         }
 
-        case 'UPDATE_STUDENT_FULFILLED':{
+        case 'UPDATE_STUDENT_FULFILLED': {
 
             const student = action.payload.data;
 
             return {
                 ...state,
-                products: state.products.map(item=>item.id === student.id ? student : item),
+                students: state.students.map(item => item.id === student.id ? student : item),
                 loading: false
 
             }
 
         }
 
-        case 'UPDATE_STUDENT_REJECTED':{
+        case 'UPDATE_STUDENT_REJECTED': {
 
             const data = action.payload.response.data;
-            const {firstName, lastName, mobileNumber, email} = data;
+            const { firstName, lastName, mobileNumber, email } = data;
 
             const errors = { global: data.message, firstName, lastName, mobileNumber, email };
 
@@ -126,16 +126,16 @@ export default function (state = initialState, action) {
                 errors: errors,
                 loading: false
             }
-            
+
         }
 
-        case 'DELETE_STUDENT_FULFILLED':{
+        case 'DELETE_STUDENT_FULFILLED': {
 
             const id = action.payload.data.id;
 
             return {
                 ...state,
-                students : state.students.filter(student=>student.id !== id)
+                students: state.students.filter(student => student.id !== id)
             }
         }
 
