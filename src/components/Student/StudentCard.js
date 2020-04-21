@@ -26,7 +26,7 @@ const StudentCard = ({ student, deleteStudent }) => {
 
         <div className="ui two buttons">
           <Link to={`/students/edit/${student.id}`} className="ui basic button green">Edit</Link>
-          <Button basic color="red" onClick={()=> deleteStudent(student.id)}>Delete</Button>
+          <Button basic color="red" onClick={()=> deleteStudent(student)}>Delete</Button>
         </div>
 
       </Card.Content>
@@ -38,7 +38,8 @@ const StudentCard = ({ student, deleteStudent }) => {
 }
 
 StudentCard.propTypes = {
-  product: PropTypes.object.isRequired,
+  student: PropTypes.object.isRequired,
+  deleteStudent: PropTypes.func.isRequired
 };
 
 export default StudentCard;

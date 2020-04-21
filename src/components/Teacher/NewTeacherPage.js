@@ -13,7 +13,7 @@ const NewTeacherPage = () => {
 
             firstName: event.target.firstName.value,
             lastName: event.target.lastName.value,
-            gender: event.target.gender,
+            gender: event.target.gender.value,
             dateOfBirth: event.target.dateOfBirth.value,
             department: event.target.department.value,
             address: event.target.address.value,

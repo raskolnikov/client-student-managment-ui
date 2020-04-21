@@ -1,14 +1,8 @@
 import React from 'react';
-import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react'
+import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
+import genderOptions from '../../utils/genderOptions';
 
 const TeacherForm = (props) => {
-
-    const genderOptions = [
-        { key: 'm', text: 'Male', value: 'male' },
-        { key: 'f', text: 'Female', value: 'female' },
-        { key: 'o', text: 'Other', value: 'other' },
-    ]
-
 
     return (
 

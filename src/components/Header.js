@@ -1,24 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
 
     return (
 
-        <div>
-            <Link to='/' style={{ padding: '5px' }}>
+        <div className="ui four item menu">
+            <NavLink className="item" to='/students'>
                 Students
-          </Link>
-            <Link to='/students/new' style={{ padding: '5px' }}>
+          </NavLink>
+            <NavLink className="item" to='/students/new'>
                 Add Student
-          </Link>
-            <Link to='/teachers' style={{ padding: '5px' }}>
+          </NavLink>
+            <NavLink className="item" to='/teachers'>
                 Teachers
-          </Link>
-            <Link to='/teachers/new' style={{ padding: '5px' }}>
+          </NavLink>
+            <NavLink className="item" to='/teachers/new'>
                 Add Teacher
-          </Link>
-
+          </NavLink>
+            <NavLink className="item" to='/users/new'>
+                Add User
+          </NavLink>
 
         </div>
 

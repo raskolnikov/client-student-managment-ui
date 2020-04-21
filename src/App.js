@@ -4,10 +4,10 @@ import ContextState from './TeacherContext';
 const App = () => {
 
   return (
-    <div>
-      School Managment System
-        <ContextState />
+    <div className="App">
+      <ContextState />
     </div>
+
   )
 
 }

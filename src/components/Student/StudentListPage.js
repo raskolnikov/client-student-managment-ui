@@ -1,60 +1,65 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
+import React, { useEffect, useState } from 'react';
+import { client } from '../../utils/util';
 import StudentList from './StudentList'
-
-import { fetchStudents, deleteStudent } from '../../services/shelf/actions';
 
 import './style.scss';
 import { Card } from 'semantic-ui-react';
 
-class StudentListPage extends Component {
-    static propTypes = {
-        fetchStudents: PropTypes.func.isRequired,
-        students: PropTypes.array.isRequired
-    }
+const StudentListPage = (props) => {
 
-    state = {
+    const initialState = {
+
+        students: [],
         isLoading: false
     }
 
-    componentDidMount() {
-        this.handleFetchStudents();
-    }
+    //const [students, setStudents] = useState([]);
+    //const [isLoading, setLoading] = useState([]);
+    const [state, setState] = useState(initialState);
 
-    handleFetchStudents = () => {
+    useEffect(() => {
 
-        this.setState({ isLoading: true });
+        client.get('students/').then(res => {
 
-        this.props.fetchStudents(() => {
-            this.setState({ isLoading: false });
+            setState({ students: res.data });
+
+        }).catch(err => {
+
+            console.error(err);
         })
+
+    }, []);
+    
+
+    const deleteStudent = (student) => {
+
+        let studentId = student.id;
+
+        client.delete(`students/${studentId}`).then(res => {
+
+            let students = state.students.filter(student => student.id !== studentId);
+
+            setState({ students: students });
+
+        })
+
+
     }
 
-    render() {
+    const isLoading = state.isLoading;
 
-        const students = this.props.students;
-        const isLoading = this.state.isLoading;
+    return (
 
-        return (
-            <React.Fragment>
-                {isLoading}
-                <Card.Group>
-                    <StudentList students={students} deleteStudent={this.props.deleteStudent}></StudentList>
-                </Card.Group>
-            </React.Fragment>
+        <React.Fragment>
+            {isLoading}
+            <Card.Group>
+                <StudentList students={state.students} deleteStudent={deleteStudent}></StudentList>
+            </Card.Group>
+        </React.Fragment>
 
-        )
+    )
 
-    }
+
 }
 
-const mapStateToProps = state => ({
-    students: state.shelf.students
-});
-
-export default connect(
-    mapStateToProps,
-    { fetchStudents, deleteStudent }
-)(StudentListPage);
+export default StudentListPage;
