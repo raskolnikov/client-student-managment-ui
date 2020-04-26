@@ -2,22 +2,6 @@ import { FETCH_STUDENTS } from './actionTypes';
 import axios from 'axios';
 import { client } from '../../utils/util';
 
-
-const compare = {
-
-    lowestPrice: (a, b) => {
-        if (a.price < b.price) return -1;
-        if (a.price > b.price) return 1;
-        return 0;
-    },
-
-    highestPrice: (a, b) => {
-        if (a.price > b.price) return -1;
-        if (a.price < b.price) return 1;
-        return 0;
-    }
-}
-
 export const productsAPI = '/students';
 
 export function newStudent() {

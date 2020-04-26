@@ -19,12 +19,12 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { Router, Route, Switch, Redirect } from 'react-router';
 
-import StudentListPage from '../../components/Student/StudentListPage';
-import NewStudentPage from '../../components/Student/NewStudentPage';
-import EditStudentPage from '../../components/Student/EditStudentPage';
-import TeacherListPage from '../../components/Teacher/TeacherListPage';
-import NewTeacherPage from '../../components/Teacher/NewTeacherPage';
-import EditTeacherPage from '../../components/Teacher/EditTeacherPage';
+import StudentListPage from './StudentListPage';
+import NewStudentPage from './NewStudentPage';
+import EditStudentPage from './EditStudentPage';
+import TeacherListPage from './TeacherListPage';
+import NewTeacherPage from './NewTeacherPage';
+import EditTeacherPage from './EditTeacherPage';
 import Login from "../../components/auth/Login";
 import PrivateRoute from "../../components/privateroute/PrivateRoute";
 import { Link } from 'react-router-dom';

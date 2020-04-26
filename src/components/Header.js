@@ -9,17 +9,11 @@ const Header = () => {
             <NavLink className="item" to='/students'>
                 Students
           </NavLink>
-            <NavLink className="item" to='/students/new'>
-                Add Student
-          </NavLink>
             <NavLink className="item" to='/teachers'>
                 Teachers
           </NavLink>
-            <NavLink className="item" to='/teachers/new'>
-                Add Teacher
-          </NavLink>
-            <NavLink className="item" to='/users/new'>
-                Add User
+            <NavLink className="item" to='/users'>
+                Users
           </NavLink>
 
         </div>

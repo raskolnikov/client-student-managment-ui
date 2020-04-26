@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { client } from '../../utils/util';
 import StudentList from './StudentList'
 
-import './style.scss';
 import { Card } from 'semantic-ui-react';
 
 const StudentListPage = (props) => {
@@ -58,8 +57,6 @@ const StudentListPage = (props) => {
         </React.Fragment>
 
     )
-
-
 }
 
 export default StudentListPage;

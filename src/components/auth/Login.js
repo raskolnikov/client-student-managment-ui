@@ -1,6 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import RegisterLink from './RegisterLink';
-import HomeLink from './HomeLink';
 import LoginForm from './LoginForm';
 import Context from '../../utils/context';
 import history from '../../utils/history';
@@ -19,7 +17,7 @@ const Login = () => {
 
         if (context.authObj.isAuthenticated()) {
 
-            history.push("/students");
+            history.push("/users");
 
         }
 
@@ -68,8 +66,6 @@ const Login = () => {
         <div className="container" data-testid="login-page">
             <div style={{ marginTop: '4rem' }} className="row">
                 <div className="col s6">
-                    <HomeLink />
-                    <RegisterLink />
                     <LoginForm onSubmit={onSubmit} errors={errors} />
                 </div>
             </div>

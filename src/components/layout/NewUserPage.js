@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 
-import HomeLink from './HomeLink';
-import LoginLink from './LoginLink';
 import Context from '../../utils/context';
 import history from '../../utils/history';
 import { registerUserApiCall } from '../../utils/ApiCall'
 import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
 
-const roleOptions = [{ key: "OFFICER", value: "OFFICER", text: "OFFICER" }, { ley: "ADMIN", value: "ADMIN", text: "ADMIN" }]
+const roleOptions = [{ key: "OFFICER", value: "OFFICER", text: "Officer" }, { ley: "ADMIN", value: "ADMIN", text: "Admin" }]
 
 const NewUserPage = (props) => {
 

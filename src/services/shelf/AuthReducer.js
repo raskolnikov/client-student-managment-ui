@@ -3,7 +3,8 @@ import * as ACTION_TYPES from './actionTypes';
 export const initialState = {
 
     isAuthenticated: false,
-    profile: null
+    profile: null, 
+    message:null
 
 }
 
@@ -30,6 +31,12 @@ export const AuthReducer = (state = initialState, action) => {
                 ...state,
                 profile: null
             }
+        case ACTION_TYPES.FLASH_MESSAGE: {
+            return {
+                ...state,
+                message: action.payload,
+            };
+        }
         default:
             return state
 

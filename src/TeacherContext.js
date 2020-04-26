@@ -11,7 +11,7 @@ const auth = new Auth();
 const ContextState = (props) => {
 
 
-    const [stateAuthReducer, dispatchAuthReducer] = useReducer(AuthReducer.AuthReducer, AuthReducer.initialState);
+    const [stateAuth, dispatchAuthReducer] = useReducer(AuthReducer.AuthReducer, AuthReducer.initialState);
 
     const handleLoginSuccess = (profile) => {
 
@@ -28,6 +28,19 @@ const ContextState = (props) => {
         })
     }
 
+    const flashErrorMessage = (error) => {
+
+        const err = error.response ? error.response.data : error; // check if server or network error
+        dispatchAuthReducer({
+            type: ACTION_TYPES.FLASH_MESSAGE,
+            payload: {
+                type: 'fail',
+                title: err.name,
+                content: err.message,
+            },
+        });
+    }
+
     return (
 
         <div>
@@ -35,12 +48,14 @@ const ContextState = (props) => {
 
                 handleLoginSuccess: (profile) => handleLoginSuccess(profile),
                 handleLogout: () => handleLogout(),
+                flashErrorMessage: (error) => flashErrorMessage(error),
+                stateAuth: stateAuth,
 
                 authObj: auth
 
             }}>
 
-            <Routes />
+                <Routes />
 
             </Context.Provider>
         </div>
