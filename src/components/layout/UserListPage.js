@@ -10,6 +10,10 @@ import StatusFilter from '../common/StatusFilter'
 import CustomPagination from '../common/CustomPagination'
 import { getUrlParam } from '../../utils/setUrlParams'
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
+
 const defaultStatus = "ACTIVE"
 const recordPerPage = 2
 
