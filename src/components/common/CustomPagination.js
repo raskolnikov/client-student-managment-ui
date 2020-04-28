@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Icon } from 'semantic-ui-react'
-import {appendUrlParam} from '../../utils/setUrlParams'
+import { appendUrlParam } from '../../utils/setUrlParams'
 
 const CustomPagination = (props) => {
 
-    const { recordPerPage, totalCount, current, handleOnClick } = props;
+    const { recordPerPage = 10, totalCount, current, handleOnClick } = props;
 
     const [showLeftArrow, setShowLeftArrow] = useState(true);
     const [showRightArrow, setShowRightArrow] = useState(true);
     const [currentPage, setCurrentPage] = useState(current)
 
-    const numberOfPages = totalCount / recordPerPage;
+    let numberOfPages = Math.ceil(totalCount / recordPerPage);
 
     useEffect(() => {
 
@@ -46,11 +46,13 @@ const CustomPagination = (props) => {
 
     const onClick = (index) => {
 
-        handleOnClick(index)
+        const currentOffset = index;
+
+        handleOnClick({ offset: currentOffset })
+
         setCurrentPage(index)
 
         appendUrlParam('page', index)
-        
     }
 
     const onClickLeftArrow = () => {

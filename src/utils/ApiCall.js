@@ -18,7 +18,7 @@ export const registerUserApiCall = (param) => {
 
 export const getUsersApiCall = (param) => {
 
-    return axios.get(process.env.REACT_APP_API_URL + GET_USERS_URL, param).then(response => response);
+    return axios.get(process.env.REACT_APP_API_URL + GET_USERS_URL, {params:{...param}}).then(response => response);
 
 }
 

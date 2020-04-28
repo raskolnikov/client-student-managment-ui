@@ -28,3 +28,12 @@ export function getUrlParam(key) {
     return searchParams.get(key);
 }
 
+export function removeUrlParam(key) {
+
+    let searchParams = new URLSearchParams(history.location.search);    
+    searchParams.delete(key);
+    history.push({
+        search: searchParams.toString()
+    })
+}
+

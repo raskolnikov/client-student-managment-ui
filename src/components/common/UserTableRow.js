@@ -1,13 +1,14 @@
 import React from 'react';
-import { Table, Link, Button } from 'semantic-ui-react'
+import { Table, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 
-const UserTableRow = ({ user, onClickEdit, onClickDelete }) => {
+const UserTableRow = ({ user, onClickDelete }) => {
 
     return (
 
         <Table.Row>
-            <Table.Cell>{user.firsName}</Table.Cell>
+            <Table.Cell>{user.firstName}</Table.Cell>
             <Table.Cell>{user.lastName}</Table.Cell>
             <Table.Cell>{user.mobileNumber}</Table.Cell>
             <Table.Cell>{user.email}</Table.Cell>
@@ -29,7 +30,6 @@ const UserTableRow = ({ user, onClickEdit, onClickDelete }) => {
 UserTableRow.propTypes = {
 
     user: PropTypes.object.isRequired,
-    onClickEdit: PropTypes.func.isRequired,
     onClickDelete: PropTypes.func.isRequired
 
 }

@@ -1,21 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Card, Loader, Button, Icon, Grid, Menu } from 'semantic-ui-react';
-import UsertList from './UserList'
+import { Card, Loader, Button, Icon, Grid, Menu, Table } from 'semantic-ui-react';
 import { getUsersApiCall, deleteUserApiCall } from '../../utils/ApiCall'
 import Context from '../../utils/context'
 import FlashMessage from '../common/FlashMessage'
 import YesNoModal from '../common/YesNoModal'
-import history from '../../utils/history'
-import StatusFilter from '../common/StatusFilter'
-import CustomPagination from '../common/CustomPagination'
 import { getUrlParam } from '../../utils/setUrlParams'
+import UserTable from '../common/UserTable'
+import FilterTable from '../common/FilterTable'
+import history from '../../utils/history'
 
 /**
  * Created by Mehmet Aktas on 2020-03-10
  */
 
-const defaultStatus = "ACTIVE"
-const recordPerPage = 2
 
 const UserListPage = () => {
 
@@ -27,25 +24,18 @@ const UserListPage = () => {
     const [selectedUser, setSelectedUser] = useState(null)
     const [modelMessage, setModelMessage] = useState("")
 
-    let initialCurrentPage = parseInt(getUrlParam("page") || 1)
-    const [currentPage, setCurrentPage] = useState(initialCurrentPage)
-    
-    let initalStatus = getUrlParam("status") || defaultStatus
-    const [filterStatus, setFilterStatus] = useState(initalStatus);
+    const initialPage = parseInt(getUrlParam("page") || 1)
+    const initalStatus = getUrlParam("status") || "ACTIVE"
+    const initalSearchValue = getUrlParam("search") || ''
 
-    const [filterParams, setFilterParam] = useState({ offset: currentPage - 1, status: filterStatus })
-    
-    const [totalCount, setTotalCount] = useState(0);
+    const [filterParams, setFilterParam] = useState({ offset: initialPage - 1, status: initalStatus, search: initalSearchValue })
 
     useEffect(() => {
 
-
         setLoading(true);
-
         getUsersApiCall(filterParams).then(res => {
 
             setUsers(res.data);
-            setTotalCount(res.data.length)
 
             setLoading(false);
 
@@ -89,21 +79,14 @@ const UserListPage = () => {
 
     }
 
-    const toggleYesNoModal = () => {
+    const hideYesNoModal = () => {
 
-        setShowYesNoModal(!showYesNoModal);
+        setShowYesNoModal(false);
     }
 
     const onChangeFilter = (filter) => {
 
-        setFilterParam({ ...filterParams, filter })
-
-    }
-
-    const onClickPagination = (page) => {
-
-        const currentOffset = page - 1;
-        setFilterParam({ ...filterParams, offset: currentOffset })
+        setFilterParam({ ...filterParams, ...filter })
 
     }
 
@@ -115,45 +98,30 @@ const UserListPage = () => {
 
             <Grid>
 
-                <Grid.Row>
-
-                    <Grid.Column width={3}>
-                        <StatusFilter onChangeFilter={onChangeFilter} defaultSelectedFilter={filterStatus} />
+                <Grid.Row columns="2">
+                    <Grid.Column>
+                        <FilterTable onChangeFilter={onChangeFilter} filterStatus={filterParams.status} defaultSearchValue={filterParams.search} />
                     </Grid.Column>
-                    <Grid.Column width={13}>
-
+                    <Grid.Column>
                         <Button
                             floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/users/new") }}>
                             <Icon name='user' /> Add User
-                        </Button>
+                    </Button>
                     </Grid.Column>
 
                 </Grid.Row>
 
-                <Grid.Row>
-
-                    {!isLoading && (
-                        <Card.Group>
-                            <UsertList users={users} deleteUser={deleteUser}></UsertList>
-                        </Card.Group>
-                    )}
-
-                </Grid.Row>
-
-                <Grid.Row centered>
-
-                    <CustomPagination recordPerPage={recordPerPage} totalCount={totalCount} current={currentPage} handleOnClick={onClickPagination} />
-
+                <Grid.Row columns='1'>
+                    <Grid.Column>
+                        <UserTable users={users} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteUser={deleteUser} onChangeFilter={onChangeFilter} />
+                    </Grid.Column>
                 </Grid.Row>
 
             </Grid>
 
-
-            {isLoading && <Loader active />}
-
             <YesNoModal
                 onClickYes={deleteUserConfirm}
-                onClickNo={toggleYesNoModal}
+                onClickNo={hideYesNoModal}
                 showModal={showYesNoModal}
                 message={modelMessage}
                 selectedItem={selectedUser}
