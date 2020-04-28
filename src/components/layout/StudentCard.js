@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Card, Button, Icon } from 'semantic-ui-react';
 
+/**
+ * Created by Mehmet Aktas on 2020-04-02
+ */
 
 const StudentCard = ({ student, deleteStudent }) => {
 

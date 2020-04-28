@@ -1,6 +1,9 @@
 import React from 'react';
 import TeacherCard from './TeacherCard';
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
 
 const TeacherCardList = ({ teachers, deleteTeacher }) => {
 

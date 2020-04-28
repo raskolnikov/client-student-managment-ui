@@ -4,6 +4,10 @@ import StudentList from './StudentList'
 
 import { Card } from 'semantic-ui-react';
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
+
 const StudentListPage = (props) => {
 
     const initialState = {

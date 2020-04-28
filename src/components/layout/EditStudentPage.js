@@ -4,6 +4,9 @@ import history from '../../utils/history';
 import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
 import genderOptions from '../../utils/genderOptions';
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
 
 const EditStudentPage = (props) => {
 

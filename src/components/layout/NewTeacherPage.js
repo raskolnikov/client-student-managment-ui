@@ -3,6 +3,10 @@ import TeacherForm from './TeacherForm';
 import { client } from '../../utils/util';
 import history from '../../utils/history';
 
+/**
+ * Created by Mehmet Aktas on 2020-04-12
+ */
+
 const NewTeacherPage = () => {
 
     const handleSubmit = (event) => {

@@ -2,6 +2,10 @@ import React from 'react';
 import { Card, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
+
 const TeacherCard = ({ teacher, deleteTeacher }) => {
 
     return (
