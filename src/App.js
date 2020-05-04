@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import ContextState from './TeacherContext';
+import React from 'react';
+import ContextState from './AppContext';
 
 const App = () => {
 

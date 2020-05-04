@@ -1,27 +1,22 @@
 import React, { useContext, useEffect } from "react";
-import Context from "./utils/context";
-import history from './utils/history';
-import Header from './components/Header';
-import { Router, Route, Switch, Redirect } from 'react-router';
+import Context from "./_helpers/context";
+import history from './_helpers/history';
+import Header from './_components/Header';
+import { Router, Route, Switch} from 'react-router';
 import { Container } from 'semantic-ui-react';
-import StudentListPage from './components/layout/StudentListPage';
-import NewStudentPage from './components/layout/NewStudentPage';
-import EditStudentPage from './components/layout/EditStudentPage';
-import TeacherListPage from './components/layout/TeacherListPage';
-import NewTeacherPage from './components/layout/NewTeacherPage';
-import EditTeacherPage from './components/layout/EditTeacherPage';
-import Login from "./components/auth/Login";
-import PrivateRoute from "./components/privateroute/PrivateRoute";
-import { Alert } from './components/common/Alert'
+import Login from "./components/layout/Login";
+import PrivateRoute from "./_components/PrivateRoute";
+import { Alert } from './_components/Alert'
 
 import jwtDecode from 'jwt-decode'
-import { setAuthToken, removeAuthToken } from './utils/authTokenActions';
-import NewUserPage from "./components/layout/NewUserPage";
-import UserListPage from "./components/layout/UserListPage";
-import EditUserPage from "./components/layout/EditUserPage";
+import { setAuthToken, removeAuthToken } from './_helpers/authTokenActions';
+import { Users } from './users/Index'
+import { Students } from './students/Index'
+import {Teachers} from './teachers/Index'
 
 const Routes = () => {
 
+    //const {pathname} = useLocation();
     const context = useContext(Context);
     useEffect(() => {
 
@@ -64,15 +59,9 @@ const Routes = () => {
 
                         <Switch>
                             <Route exact path="/login" component={Login} />
-                            <PrivateRoute exact path="/students" component={StudentListPage} />
-                            <PrivateRoute exact path="/students/new" component={NewStudentPage} />
-                            <PrivateRoute exact path="/students/edit/:id" component={EditStudentPage} />
-                            <PrivateRoute exact path="/teachers/" component={TeacherListPage} />
-                            <PrivateRoute exact path="/teachers/new" component={NewTeacherPage} />
-                            <PrivateRoute exact path="/teachers/edit/:id" component={EditTeacherPage} />
-                            <PrivateRoute exact path="/users/new" component={NewUserPage} />
-                            <PrivateRoute exact path="/users" component={UserListPage} />
-                            <PrivateRoute exact path="/users/edit/:id" component={EditUserPage} />
+                            <PrivateRoute path="/students" component={Students} />
+                            <PrivateRoute path="/teachers" component={Teachers} />
+                            <PrivateRoute path="/users" component={Users} />
                         </Switch>
                     </Container>
 
