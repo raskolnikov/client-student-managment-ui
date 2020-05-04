@@ -1,49 +1,62 @@
-import React, { useState } from 'react';
-
-import Context from '../../utils/context';
-import history from '../../utils/history';
-import { registerUserApiCall } from '../../utils/ApiCall'
-import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
-import {roleOptions} from '../../utils/roleOptions'
-
-/**
- * Created by Mehmet Aktas on 2020-04-11
- */
+import React, { useEffect, useState, useContext } from 'react'
+import { getUserApiCall, updateUserApiCall } from '../../utils/ApiCall';
+import Context from '../../utils/context'
+import { Grid, Form, Input, Button, Select, Message } from 'semantic-ui-react'
+import { roleOptions } from '../../utils/roleOptions'
 
 
-const NewUserPage = (props) => {
+const EditUserPage = (props) => {
 
-    const [errors, setErrors] = useState([]);
+    const context = useContext(Context);
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [mobileNumber, setMobileNumber] = useState('')
-    const [password, setPassword] = useState('')
-    const [role, setRole] = useState('OFFICER')
+    const userId = props.match.params.id;
+    const [isLoading, setLoading] = useState(false);
+    const [isSaving, setSaving] = useState(false);
+    const [user, setUser] = useState({})
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+
+        setLoading(true);
+        getUserApiCall(userId).then(res => {
+
+            setUser(res.data);
+
+            setLoading(false);
+
+        }).catch(err => {
+
+            context.flashErrorMessage(err)
+
+            setLoading(false);
+        })
+
+    }, [])
 
     const handleSubmit = (event) => {
 
         event.preventDefault()
 
-        const newUser = {
+        setSaving(true);
 
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            mobileNumber: mobileNumber,
-            password: password,
-            role: role
-        }
+        updateUserApiCall(userId, user).then(res => {
 
-        registerUserApiCall(newUser).then(res => {
-
-            history.push("/users");
+            setSuccess(true)
+            setSaving(false);
 
         }).catch(err => {
 
-            setErrors(err.response.data);
+            setSaving(false);
+
         })
+
+    }
+
+    const handleChange = (event, { value, name }) => {
+
+        setUser({ ...user, [name]: value });
+
+        setSuccess(false)
 
     }
 
@@ -54,27 +67,27 @@ const NewUserPage = (props) => {
                 <div className="col s12">
                     <Grid centered columns={1}>
                         <Grid.Column>
-                            <h1 style={{ marginTop: "1em" }}>Add User</h1>
+                            <h1 style={{ marginTop: "1em" }}>Edit User</h1>
 
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={handleSubmit} loading={isSaving || isLoading} success={success}>
 
                                 <Form.Field name='firstName'
                                     id='form-input-control-first-name'
                                     control={Input}
                                     label='First name'
                                     placeholder='First name'
-                                    value={firstName}
+                                    value={user.firstName}
                                     required={true}
-                                    onChange={e => setFirstName(e.target.value)}
+                                    onChange={handleChange}
                                 />
                                 <Form.Field name="lastName"
                                     id='form-input-control-last-name'
                                     control={Input}
                                     label='Last name'
                                     placeholder='Last name'
-                                    value={lastName}
+                                    value={user.lastName}
                                     required={true}
-                                    onChange={e => setLastName(e.target.value)}
+                                    onChange={handleChange}
                                 />
 
                                 <Form.Field name='email'
@@ -82,10 +95,10 @@ const NewUserPage = (props) => {
                                     control={Input}
                                     label='Email'
                                     placeholder='joe@schmoe.com'
-                                    value={email}
+                                    value={user.email}
                                     required={true}
                                     type='email'
-                                    onChange={e => setEmail(e.target.value)}
+                                    onChange={handleChange}
                                 />
 
                                 <Form.Field name='mobileNumber'
@@ -93,20 +106,20 @@ const NewUserPage = (props) => {
                                     control={Input}
                                     label='Mobile Number'
                                     placeholder='07777777777'
-                                    value={mobileNumber}
+                                    value={user.mobileNumber}
                                     required={true}
                                     type='phone'
-                                    onChange={e => setMobileNumber(e.target.value)}
+                                    onChange={handleChange}
                                 />
 
                                 <Form.Field name='password'
                                     id='form-input-control-error-password'
                                     control={Input}
                                     label='Password'
-                                    value={password}
+                                    value={user.password}
                                     type="password"
                                     required={true}
-                                    onChange={e => setPassword(e.target.value)}
+                                    onChange={handleChange}
                                 />
 
                                 <Form.Field name="role"
@@ -116,21 +129,24 @@ const NewUserPage = (props) => {
                                     label={{ children: 'Role', htmlFor: 'form-select-control-role' }}
                                     placeholder='Role'
                                     required={true}
-                                    onChange={(e, {value}) => setRole(value)}
+                                    value={user.role}
+                                    onChange={handleChange}
                                 />
 
-                                <Form.Field
-                                    id='form-button-control-public'
-                                    control={Button}
-                                    content='Save'
-                                    label='Label with htmlFor'
-                                />
+                                <Form.Field>
+
+                                    <Button loading={isSaving} content={success? 'Saved' : 'Save'}></Button>
+
+                                </Form.Field>
+
                             </Form></Grid.Column></Grid>
                 </div>
             </div>
         </div>
+
     )
 
 }
 
-export default NewUserPage
+export default EditUserPage
+

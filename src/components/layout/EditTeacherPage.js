@@ -5,7 +5,7 @@ import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
 import genderOptions from '../../utils/genderOptions';
 
 /**
- * Created by Mehmet Aktas on 2020-02-13
+ * Created by Mehmet Aktas on 2020-02-1
  */
 
 const EditTeacherPage = (props) => {

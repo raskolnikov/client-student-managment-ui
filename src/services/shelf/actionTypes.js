@@ -9,7 +9,8 @@ export const FLASH_MESSAGE = 'FLASH_MESSAGE';
 
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
-export const LOGIN_FAILURE = "LOGIN_FAILURE"
+export const LOGOUT = "LOGIN_FAILURE"
+export const USER_BACK = "USER_BACK"
 export const ADD_PROFILE = "ADD_PROFILE"
 export const REMOVE_PROFILE = "REMOVE_PROFILE"
 

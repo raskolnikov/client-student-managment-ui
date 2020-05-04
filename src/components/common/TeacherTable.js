@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import { Table, Loader } from 'semantic-ui-react'
-import UserTableRow from './UserTableRow'
+import TeacherTableRow from './TeacherTableRow'
 import CustomPagination from './CustomPagination'
 
-const UserTable = ({ isLoading, users, deleteUser, currentPage, onChangeFilter }) => {
+const TeacherTable = ({ isLoading, teachers, deleteTeacher, currentPage, onChangeFilter }) => {
 
-    const totalCount = users.length
+    const totalCount = teachers.length
 
     return (
         <Fragment>
@@ -16,7 +16,6 @@ const UserTable = ({ isLoading, users, deleteUser, currentPage, onChangeFilter }
                         <Table.HeaderCell>Last Name</Table.HeaderCell>
                         <Table.HeaderCell>Mobile</Table.HeaderCell>
                         <Table.HeaderCell>Email</Table.HeaderCell>
-                        <Table.HeaderCell>Role</Table.HeaderCell>
                         <Table.HeaderCell>Action</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -24,9 +23,9 @@ const UserTable = ({ isLoading, users, deleteUser, currentPage, onChangeFilter }
                 <Table.Body>
 
                     {(
-                        users.map(user => {
+                        teachers.map(teacher => {
 
-                            return <UserTableRow user={user} key={user.id} onClickDelete={deleteUser} />
+                            return <TeacherTableRow teacher={teacher} key={teacher.id} onClickDelete={deleteTeacher} />
 
                         })
                     )}
@@ -52,4 +51,4 @@ const UserTable = ({ isLoading, users, deleteUser, currentPage, onChangeFilter }
 }
 
 
-export default UserTable
+export default TeacherTable

@@ -1,66 +1,116 @@
-import React, { useEffect, useState } from 'react';
-import { client } from '../../utils/util';
-import StudentList from './StudentList'
-
-import { Card } from 'semantic-ui-react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Button, Icon, Grid } from 'semantic-ui-react';
+import { getStudentsApiCall, deleteStudentApiCall } from '../../utils/ApiCall'
+import Context from '../../utils/context'
+import FlashMessage from '../common/FlashMessage'
+import { getUrlParam } from '../../utils/setUrlParams'
+import StudentTable from '../common/StudentTable'
+import FilterTable from '../common/FilterTable'
+import history from '../../utils/history'
+import confirmService from '../../utils/confirmService';
 
 /**
  * Created by Mehmet Aktas on 2020-03-10
  */
 
-const StudentListPage = (props) => {
+const StudentListPage = () => {
 
-    const initialState = {
+    const context = useContext(Context);
 
-        students: [],
-        isLoading: false
-    }
+    const [students, setStudents] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const initialPage = parseInt(getUrlParam("page") || 1)
+    const initalStatus = getUrlParam("status") || "ACTIVE"
+    const initalSearchValue = getUrlParam("search") || ''
 
-    //const [students, setStudents] = useState([]);
-    //const [isLoading, setLoading] = useState([]);
-    const [state, setState] = useState(initialState);
+    const [filterParams, setFilterParam] = useState({ offset: initialPage - 1, status: initalStatus, search: initalSearchValue })
 
     useEffect(() => {
 
-        client.get('students/').then(res => {
+        setLoading(true);
+        getStudentsApiCall(filterParams).then(res => {
 
-            setState({ students: res.data });
+            setStudents(res.data);
+
+            setLoading(false);
 
         }).catch(err => {
 
-            console.error(err);
-        })
-
-    }, []);
-    
-
-    const deleteStudent = (student) => {
-
-        let studentId = student.id;
-
-        client.delete(`students/${studentId}`).then(res => {
-
-            let students = state.students.filter(student => student.id !== studentId);
-
-            setState({ students: students });
+            context.flashErrorMessage(err)
+            setLoading(false);
 
         })
 
+    }, [filterParams])
 
+    const deleteStudent = async (student) => {
+
+        const result = await confirmService.show({
+            message: 'Are you sure of delete this student?'
+        })
+
+        if (result) {
+
+            let studentId = student.id;
+
+            setLoading(true);
+
+            deleteStudentApiCall(student.id).then(res => {
+
+                let newStudentList = students.filter(student => student.id !== studentId)
+
+                setStudents(newStudentList)
+
+                setLoading(false);
+
+            }).catch(err => {
+
+                context.flashErrorMessage(err)
+                setLoading(false);
+
+            })
+        }
     }
 
-    const isLoading = state.isLoading;
+
+    const onChangeFilter = (filter) => {
+
+        setFilterParam({ ...filterParams, ...filter })
+
+    }
 
     return (
 
         <React.Fragment>
-            {isLoading}
-            <Card.Group>
-                <StudentList students={state.students} deleteStudent={deleteStudent}></StudentList>
-            </Card.Group>
+
+            {context.stateAuth.message && <FlashMessage message={context.stateAuth.message} />}
+
+            <Grid>
+
+                <Grid.Row columns="2">
+                    <Grid.Column>
+                        <FilterTable onChangeFilter={onChangeFilter} filterStatus={filterParams.status} defaultSearchValue={filterParams.search} />
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Button
+                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/students/new") }}>
+                            <Icon name='student' /> Add Student
+                    </Button>
+                    </Grid.Column>
+
+                </Grid.Row>
+
+                <Grid.Row columns='1'>
+                    <Grid.Column>
+                        <StudentTable students={students} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteStudent={deleteStudent} onChangeFilter={onChangeFilter} />
+                    </Grid.Column>
+                </Grid.Row>
+
+            </Grid>
+
         </React.Fragment>
 
     )
 }
 
-export default StudentListPage;
+export default StudentListPage

@@ -4,41 +4,31 @@ import Routes from './routes';
 import * as AuthReducer from './services/shelf/AuthReducer';
 import *  as ACTION_TYPES from './services/shelf/actionTypes';
 
-import Auth from './utils/auth';
-
-const auth = new Auth();
-
 const ContextState = (props) => {
-
 
     const [stateAuth, dispatchAuthReducer] = useReducer(AuthReducer.AuthReducer, AuthReducer.initialState);
 
-    const handleLoginSuccess = (profile) => {
+    const handleLoginSuccess = (user) => {
 
         dispatchAuthReducer({
             type: ACTION_TYPES.LOGIN_SUCCESS,
-            payload: profile
+            payload: user
         })
     }
 
     const handleLogout = () => {
 
         dispatchAuthReducer({
-            type: ACTION_TYPES.LOGIN_FAILURE
+            type: ACTION_TYPES.LOGOUT
         })
     }
 
-    const flashErrorMessage = (error) => {
+    const setReturningUser = (user) => {
 
-        const err = error.response ? error.response.data : error; // check if server or network error
         dispatchAuthReducer({
-            type: ACTION_TYPES.FLASH_MESSAGE,
-            payload: {
-                type: 'fail',
-                title: err.name,
-                content: err.message,
-            },
-        });
+            type: ACTION_TYPES.USER_BACK,
+            payload: user
+        })
     }
 
     return (
@@ -46,13 +36,10 @@ const ContextState = (props) => {
         <div>
             <Context.Provider value={{
 
-                handleLoginSuccess: (profile) => handleLoginSuccess(profile),
+                handleLoginSuccess: (user) => handleLoginSuccess(user),
                 handleLogout: () => handleLogout(),
-                flashErrorMessage: (error) => flashErrorMessage(error),
-                stateAuth: stateAuth,
-
-                authObj: auth
-
+                setReturningUser,
+                stateAuth
             }}>
 
                 <Routes />

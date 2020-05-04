@@ -1,70 +1,116 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
-import Context from '../../utils/context';
-import { client } from '../../utils/util';
-import TeacherCardList from './TeacherCardList';
-import { Card } from 'semantic-ui-react';
-import * as TeacherReducer from '../../services/shelf/TeacherReducer';
+import React, { useState, useEffect, useContext } from 'react';
+import { Button, Icon, Grid } from 'semantic-ui-react';
+import { getTeachersApiCall, deleteTeacherApiCall } from '../../utils/ApiCall'
+import Context from '../../utils/context'
+import FlashMessage from '../common/FlashMessage'
+import { getUrlParam } from '../../utils/setUrlParams'
+import TeacherTable from '../common/TeacherTable'
+import FilterTable from '../common/FilterTable'
+import history from '../../utils/history'
+import confirmService from '../../utils/confirmService';
 
+/**
+ * Created by Mehmet Aktas on 2020-03-10
+ */
 
-const TeacherListPage = (posts) => {
+const StudentListPage = () => {
 
     const context = useContext(Context);
 
-    const [state, dispatch] = useReducer(TeacherReducer.TeacherReducer, TeacherReducer.initialState);
+    const [teachers, setTeachers] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const initialPage = parseInt(getUrlParam("page") || 1)
+    const initalStatus = getUrlParam("status") || "ACTIVE"
+    const initalSearchValue = getUrlParam("search") || ''
+
+    const [filterParams, setFilterParam] = useState({ offset: initialPage - 1, status: initalStatus, search: initalSearchValue })
 
     useEffect(() => {
 
-        client.get("teachers/")
-            .then(res => {
-                
-                dispatch({
+        setLoading(true);
+        getTeachersApiCall(filterParams).then(res => {
 
-                    type: "ACTION_TYPES.FETCH_DB_TEACHERS",
-                    payload : res.data
+            setTeachers(res.data);
 
-                })
-
-            }).catch(err => {
-
-                console.log(err);
-            })
-
-
-    }, []);
-
-    const deleteTeacher = (teacher) => {
-
-        client.delete(`teachers/${teacher.id}`).then(res => {
-
-            dispatch({
-
-                type: "ACTION_TYPES.TEACHER_DELETED",
-                payload : teacher
-
-            })
+            setLoading(false);
 
         }).catch(err => {
 
-            console.log(err);
+            context.flashErrorMessage(err)
+            setLoading(false);
+
         })
 
+    }, [filterParams])
+
+    const deleteStudent = async (teacher) => {
+
+        const result = await confirmService.show({
+            message: 'Are you sure of delete this teacher?'
+        })
+
+        if (result) {
+
+            let studentId = teacher.id;
+
+            setLoading(true);
+
+            deleteTeacherApiCall(teacher.id).then(res => {
+
+                let newStudentList = teachers.filter(teacher => teacher.id !== studentId)
+
+                setTeachers(newStudentList)
+
+                setLoading(false);
+
+            }).catch(err => {
+
+                context.flashErrorMessage(err)
+                setLoading(false);
+
+            })
+        }
     }
 
-    const teachers = state.teachers;
-    const isLoading = state.isLoading;
 
+    const onChangeFilter = (filter) => {
+
+        setFilterParam({ ...filterParams, ...filter })
+
+    }
 
     return (
 
         <React.Fragment>
-            {isLoading}
-            <Card.Group>
-                <TeacherCardList teachers={teachers} deleteTeacher={deleteTeacher} />
-            </Card.Group>
+
+            {context.stateAuth.message && <FlashMessage message={context.stateAuth.message} />}
+
+            <Grid>
+
+                <Grid.Row columns="2">
+                    <Grid.Column>
+                        <FilterTable onChangeFilter={onChangeFilter} filterStatus={filterParams.status} defaultSearchValue={filterParams.search} />
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Button
+                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/teachers/new") }}>
+                            <Icon name='teacher' /> Add Teacher
+                    </Button>
+                    </Grid.Column>
+
+                </Grid.Row>
+
+                <Grid.Row columns='1'>
+                    <Grid.Column>
+                        <TeacherTable teachers={teachers} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteStudent={deleteStudent} onChangeFilter={onChangeFilter} />
+                    </Grid.Column>
+                </Grid.Row>
+
+            </Grid>
+
         </React.Fragment>
 
     )
-
 }
 
-export default TeacherListPage;
+export default StudentListPage

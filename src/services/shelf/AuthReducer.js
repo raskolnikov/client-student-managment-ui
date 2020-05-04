@@ -2,9 +2,7 @@ import * as ACTION_TYPES from './actionTypes';
 
 export const initialState = {
 
-    isAuthenticated: false,
-    profile: null, 
-    message:null
+    user: null,
 
 }
 
@@ -14,29 +12,20 @@ export const AuthReducer = (state = initialState, action) => {
         case ACTION_TYPES.LOGIN_SUCCESS:
             return {
                 ...state,
-                isAuthenticated: true
+                user: action.payload
             }
-        case ACTION_TYPES.LOGIN_FAILURE:
+        case ACTION_TYPES.LOGOUT:
             return {
                 ...state,
-                isAuthenticated: false
+                user: null
             }
-        case ACTION_TYPES.ADD_PROFILE:
+
+        case ACTION_TYPES.USER_BACK:
             return {
                 ...state,
-                profile: action.payload
+                user: action.payload
             }
-        case ACTION_TYPES.REMOVE_PROFILE:
-            return {
-                ...state,
-                profile: null
-            }
-        case ACTION_TYPES.FLASH_MESSAGE: {
-            return {
-                ...state,
-                message: action.payload,
-            };
-        }
+
         default:
             return state
 
