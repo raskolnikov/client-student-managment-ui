@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import Context from "./_helpers/context";
 import history from './_helpers/history';
-import Header from './_components/Header';
 import { Router, Route, Switch} from 'react-router';
 import { Container } from 'semantic-ui-react';
-import Login from "./components/layout/Login";
+import Login from "./account/Login";
 import PrivateRoute from "./_components/PrivateRoute";
-import { Alert } from './_components/Alert'
+import { Alert, Header } from './_components/Index'
 
 import jwtDecode from 'jwt-decode'
 import { setAuthToken, removeAuthToken } from './_helpers/authTokenActions';

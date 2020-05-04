@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react';
-import Context from '../../_helpers/context';
-import history from '../../_helpers/history';
+import Context from '../_helpers/context';
+import history from '../_helpers/history';
 
 import jwtDecode from 'jwt-decode'
-import { setAuthToken } from '../../_helpers/authTokenActions';
-import { loginApiCall } from '../../_helpers/ApiCall'
+import { setAuthToken } from '../_helpers/authTokenActions';
+import { loginApiCall } from '../_helpers/ApiCall'
 import { Grid, Form, Button, Checkbox, Icon, Header } from 'semantic-ui-react';
-import { alertService } from '../../_services/alert.service'
-import { convertErrorToMessage } from '../../_helpers/parseServerError'
+import { alertService } from '../_services/alert.service'
+import { convertErrorToMessage } from '../_helpers/parseServerError'
 
 
 const Login = () => {
