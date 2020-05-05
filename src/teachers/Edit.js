@@ -1,14 +1,12 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { client } from '../_helpers/util';
-import history from '../_helpers/history';
+import { client, history, genderOptions, } from "../_helpers/";
 import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
-import genderOptions from '../_helpers/genderOptions';
 
 /**
  * Created by Mehmet Aktas on 2020-02-1
  */
 
-const EditTeacherPage = (props) => {
+const Edit = (props) => {
 
     const teacherId = props.match.params.id;
 
@@ -74,8 +72,8 @@ const EditTeacherPage = (props) => {
 
         const teacher = { ...state.teacher, [name]: value };
 
-        setState({'teacher': teacher});
-        
+        setState({ 'teacher': teacher });
+
     }
 
     return (
@@ -104,7 +102,7 @@ const EditTeacherPage = (props) => {
                         />
                         <Form.Field name="gender"
                             control={Select}
-                            id = "gender"
+                            id="gender"
                             options={genderOptions}
                             label={{ children: 'Gender', htmlFor: 'form-select-control-gender' }}
                             placeholder='Gender'
@@ -182,4 +180,4 @@ const EditTeacherPage = (props) => {
 
 }
 
-export default EditTeacherPage;
+export { Edit };

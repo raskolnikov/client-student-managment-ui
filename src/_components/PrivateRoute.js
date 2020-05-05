@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Route, Redirect } from "react-router"
-import Context from '../_helpers/context';
+import { Context } from "../_helpers/";
 
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => {
@@ -30,5 +30,5 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => {
     )
 }
 
-export default PrivateRoute
+export { PrivateRoute }
 

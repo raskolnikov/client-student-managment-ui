@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Icon, Grid } from 'semantic-ui-react';
 import { getTeachersApiCall, deleteTeacherApiCall } from '../_helpers/ApiCall'
-import Context from '../_helpers/context'
-import FlashMessage from '../_components/FlashMessage'
+import { Context, history } from "../_helpers/";
 import { getUrlParam } from '../_helpers/setUrlParams'
 import TeacherTable from '../_components/TeacherTable'
 import FilterTable from '../_components/FilterTable'
-import history from '../_helpers/history'
 import confirmService from '../_helpers/confirmService';
 
 /**
  * Created by Mehmet Aktas on 2020-03-10
  */
 
-const StudentListPage = () => {
+const List = () => {
 
     const context = useContext(Context);
 
@@ -83,8 +81,6 @@ const StudentListPage = () => {
 
         <React.Fragment>
 
-            {context.stateAuth.message && <FlashMessage message={context.stateAuth.message} />}
-
             <Grid>
 
                 <Grid.Row columns="2">
@@ -113,4 +109,4 @@ const StudentListPage = () => {
     )
 }
 
-export default StudentListPage
+export { List }

@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Icon, Grid } from 'semantic-ui-react';
 import { getUsersApiCall, deleteUserApiCall } from '../_helpers/ApiCall'
-import Context from '../_helpers/context'
-import FlashMessage from '../_components/FlashMessage'
+import { Context, history } from "../_helpers/";
 import { getUrlParam } from '../_helpers/setUrlParams'
 import UserTable from '../_components/UserTable'
 import FilterTable from '../_components/FilterTable'
-import history from '../_helpers/history'
 import confirmService from '../_helpers/confirmService';
-import {alertService} from '../_services/alert.service'
-import {convertErrorToMessage} from '../_helpers/parseServerError'
+import { alertService } from '../_services/alert.service'
+import { convertErrorToMessage } from '../_helpers/parseServerError'
 
 
 /**
  * Created by Mehmet Aktas on 2020-03-10
  */
 
-const UserListPage = () => {
+const List = () => {
 
     const context = useContext(Context);
 
@@ -65,7 +63,7 @@ const UserListPage = () => {
 
                 setUsers(newUserList)
 
-                alertService.success({content:'User successfully deleted!'})
+                alertService.success({ content: 'User successfully deleted!' })
 
                 setLoading(false);
 
@@ -117,4 +115,4 @@ const UserListPage = () => {
     )
 }
 
-export default UserListPage
+export { List }

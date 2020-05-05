@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Moment from 'moment';
 import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
-import genderOptions from '../_helpers/genderOptions';
-import { client } from '../_helpers/util';
-import history from '../_helpers/history';
+import { client, history, genderOptions } from '../_helpers/';
 
 
-const NewStudentPage = () => {
+const Add = () => {
 
     const initialState = {
 
@@ -167,4 +165,4 @@ const validate = (values) => {
     return errors;
 }
 
-export default NewStudentPage;
+export {Add};

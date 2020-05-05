@@ -4,4 +4,4 @@ const genderOptions = [
     { key: 'o', text: 'Other', value: 'other' },
 ]
 
-export default genderOptions;
+export { genderOptions };

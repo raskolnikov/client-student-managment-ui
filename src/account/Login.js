@@ -1,16 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
-import Context from '../_helpers/context';
-import history from '../_helpers/history';
-
+import { Context, history, convertErrorToMessage, setAuthToken, loginApiCall } from "../_helpers/";
 import jwtDecode from 'jwt-decode'
-import { setAuthToken } from '../_helpers/authTokenActions';
-import { loginApiCall } from '../_helpers/ApiCall'
 import { Grid, Form, Button, Checkbox, Icon, Header } from 'semantic-ui-react';
-import { alertService } from '../_services/alert.service'
-import { convertErrorToMessage } from '../_helpers/parseServerError'
+import { alertService } from '../_services/'
 
 
-const Login = () => {
+const Login = ({ location }) => {
 
     const [errors, setErrors] = useState([]);
     const context = useContext(Context)
@@ -20,11 +15,12 @@ const Login = () => {
 
         if (context.stateAuth.user) {
 
-            history.push("/users");
+            const { from } = location.state || { from: { pathname: "/" } };
+            history.push(from);
 
         }
 
-    }, [context.stateAuth.user]);
+    }, [context.stateAuth.user, location]);
 
 
     const loginUser = (userData) => {
@@ -104,4 +100,4 @@ const Login = () => {
 
 }
 
-export default Login;
+export { Login };

@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-
-import Context from '../_helpers/context';
-import history from '../_helpers/history';
-import { registerUserApiCall } from '../_helpers/ApiCall'
-import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
-import {roleOptions} from '../_helpers/roleOptions'
+import { history, registerUserApiCall, roleOptions } from "../_helpers/";
+import { Form, Input, Button, Select, Grid } from 'semantic-ui-react';
 
 /**
  * Created by Mehmet Aktas on 2020-04-11
  */
 
 
-const NewUserPage = (props) => {
+const Add = (props) => {
 
     const [errors, setErrors] = useState([]);
 
@@ -116,7 +112,7 @@ const NewUserPage = (props) => {
                                     label={{ children: 'Role', htmlFor: 'form-select-control-role' }}
                                     placeholder='Role'
                                     required={true}
-                                    onChange={(e, {value}) => setRole(value)}
+                                    onChange={(e, { value }) => setRole(value)}
                                 />
 
                                 <Form.Field
@@ -133,4 +129,4 @@ const NewUserPage = (props) => {
 
 }
 
-export default NewUserPage
+export { Add }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment, useContext } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import Context from '../_helpers/context';
-import {Role} from '../_helpers/roleOptions'
+import { Context, Role } from "../_helpers/";
 import { Button } from 'semantic-ui-react';
 
 
@@ -21,7 +20,7 @@ const Header = () => {
     }
 
     const role = user.role.toLowerCase()
-    
+
     return (
 
         <Fragment>
@@ -43,4 +42,4 @@ const Header = () => {
 }
 
 
-export default Header;
+export { Header };

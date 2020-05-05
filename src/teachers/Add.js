@@ -1,13 +1,12 @@
 import React from 'react';
 import TeacherForm from '../_components/TeacherForm';
-import { client } from '../_helpers/util';
-import history from '../_helpers/history';
+import { client, history } from "../_helpers/";
 
 /**
  * Created by Mehmet Aktas on 2020-04-12
  */
 
-const NewTeacherPage = () => {
+const Add = () => {
 
     const handleSubmit = (event) => {
 
@@ -45,4 +44,4 @@ const NewTeacherPage = () => {
 
 }
 
-export default NewTeacherPage;
+export { Add };

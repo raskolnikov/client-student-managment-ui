@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom';
-import List from './List'
-import Add from './Add'
-import Edit from './Edit'
+import { List } from './List'
+import { Add } from './Add'
+import { Edit } from './Edit'
 
 const Users = ({ match }) => {
     const { path } = match;

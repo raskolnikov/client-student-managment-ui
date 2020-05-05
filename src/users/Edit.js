@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { getUserApiCall, updateUserApiCall } from '../_helpers/ApiCall';
-import Context from '../_helpers/context'
 import { Grid, Form, Input, Button, Select, Message } from 'semantic-ui-react'
-import { roleOptions } from '../_helpers/roleOptions'
+import { Context, roleOptions, getUserApiCall, updateUserApiCall } from '../_helpers/'
 
 
-const EditUserPage = (props) => {
+const Edit = (props) => {
 
     const context = useContext(Context);
 
@@ -135,7 +133,7 @@ const EditUserPage = (props) => {
 
                                 <Form.Field>
 
-                                    <Button loading={isSaving} content={success? 'Saved' : 'Save'}></Button>
+                                    <Button loading={isSaving} content={success ? 'Saved' : 'Save'}></Button>
 
                                 </Form.Field>
 
@@ -148,5 +146,5 @@ const EditUserPage = (props) => {
 
 }
 
-export default EditUserPage
+export { Edit }
 

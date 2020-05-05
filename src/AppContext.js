@@ -1,8 +1,9 @@
 import React, { useReducer } from "react";
-import Context from './_helpers/context';
+import { Context, history } from "./_helpers/";
 import Routes from './routes';
 import * as AuthReducer from './_helpers/AuthReducer';
 import *  as ACTION_TYPES from './_helpers/actionTypes';
+import {Router} from 'react-router-dom'
 
 const ContextState = (props) => {
 
@@ -41,8 +42,9 @@ const ContextState = (props) => {
                 setReturningUser,
                 stateAuth
             }}>
-
-                <Routes />
+                <Router history={history} >
+                    <Routes />
+                </Router>
 
             </Context.Provider>
         </div>

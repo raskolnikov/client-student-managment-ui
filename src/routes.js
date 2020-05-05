@@ -1,21 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import Context from "./_helpers/context";
-import history from './_helpers/history';
-import { Router, Route, Switch} from 'react-router';
+import { Route, Switch, Redirect, useLocation } from 'react-router';
 import { Container } from 'semantic-ui-react';
-import Login from "./account/Login";
-import PrivateRoute from "./_components/PrivateRoute";
-import { Alert, Header } from './_components/Index'
-
 import jwtDecode from 'jwt-decode'
-import { setAuthToken, removeAuthToken } from './_helpers/authTokenActions';
-import { Users } from './users/Index'
-import { Students } from './students/Index'
-import {Teachers} from './teachers/Index'
+import { Alert, Header, PrivateRoute } from './_components'
+import { Context, history, setAuthToken, removeAuthToken } from "./_helpers/";
+import { Login } from "./account/Login";
+import { Users } from './users'
+import { Students } from './students'
+import { Teachers } from './teachers'
 
 const Routes = () => {
 
-    //const {pathname} = useLocation();
+    const { pathname } = useLocation();
     const context = useContext(Context);
     useEffect(() => {
 
@@ -48,26 +44,25 @@ const Routes = () => {
     return (
 
         <div>
-            <Router history={history} >
-                <div>
 
-                    <Container textAlign='center'>
-                        <Header />
+            <div>
 
-                        <Alert />
+                <Container textAlign='center'>
+                    <Header />
 
-                        <Switch>
-                            <Route exact path="/login" component={Login} />
-                            <PrivateRoute path="/students" component={Students} />
-                            <PrivateRoute path="/teachers" component={Teachers} />
-                            <PrivateRoute path="/users" component={Users} />
-                        </Switch>
-                    </Container>
+                    <Alert />
 
-                </div>
+                    <Switch>
+                        <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
+                        <Route exact path="/login" component={Login} />
+                        <PrivateRoute path="/students" component={Students} />
+                        <PrivateRoute path="/teachers" component={Teachers} />
+                        <PrivateRoute path="/users" component={Users} />
+                        <Redirect from="*" to="/" />
+                    </Switch>
+                </Container>
 
-
-            </Router>
+            </div>
 
         </div>
     )
