@@ -12,7 +12,7 @@ const Header = () => {
     useEffect(() => {
 
         setUser(context.stateAuth.user)
-
+        
     }, [context.stateAuth.user])
 
     if (!user) {

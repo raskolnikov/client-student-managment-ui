@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-    LOGIN_URL, REGISTER_USER_URL, GET_USERS_URL, GET_STUDENTS_URL, GET_TEACHERS_URL
+    LOGIN_URL, REGISTER_USER_URL, GET_USERS_URL, GET_STUDENTS_URL, GET_TEACHERS_URL, AUTH_URL
 } from './ApiUrl'
 
 
@@ -33,6 +33,10 @@ export const getUserApiCall = (userId) => {
 
     return axios.get(process.env.REACT_APP_API_URL + GET_USERS_URL + userId).then(response => response);
 
+}
+
+export const forgotPasswordApiCall= (param) => {
+    return axios.post(process.env.REACT_APP_API_URL + AUTH_URL + "forgot-password", param).then(response => response);
 }
 
 export const updateUserApiCall = (userId, user) => {

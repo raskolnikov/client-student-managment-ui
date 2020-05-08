@@ -4,10 +4,10 @@ import { Container } from 'semantic-ui-react';
 import jwtDecode from 'jwt-decode'
 import { Alert, Header, PrivateRoute } from './_components'
 import { Context, history, setAuthToken, removeAuthToken } from "./_helpers/";
-import { Login } from "./account/Login";
 import { Users } from './users'
 import { Students } from './students'
 import { Teachers } from './teachers'
+import { Account } from "./account";
 
 const Routes = () => {
 
@@ -34,7 +34,7 @@ const Routes = () => {
                 context.handleLogout()
 
                 // Redirect to login
-                history.push("/login");
+                history.push("/account/login");
             }
         }
 
@@ -54,10 +54,10 @@ const Routes = () => {
 
                     <Switch>
                         <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
-                        <Route exact path="/login" component={Login} />
                         <PrivateRoute path="/students" component={Students} />
                         <PrivateRoute path="/teachers" component={Teachers} />
                         <PrivateRoute path="/users" component={Users} />
+                        <Route path="/account" component={Account} />
                         <Redirect from="*" to="/" />
                     </Switch>
                 </Container>

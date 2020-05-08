@@ -1,31 +1,49 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Context, history, convertErrorToMessage, setAuthToken, loginApiCall } from "../_helpers/";
 import jwtDecode from 'jwt-decode'
-import { Grid, Form, Button, Checkbox, Icon, Header } from 'semantic-ui-react';
+import { Grid, Form, Button, Header } from 'semantic-ui-react';
 import { alertService } from '../_services/'
-
+import { Link } from 'react-router-dom'
+import * as Yup from 'yup'
+import { Formik } from 'formik';
+import { TextInput } from '../_atoms'
 
 const Login = ({ location }) => {
 
-    const [errors, setErrors] = useState([]);
     const context = useContext(Context)
-    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
 
         if (context.stateAuth.user) {
 
-            const { from } = location.state || { from: { pathname: "/" } };
+            const { from } = location.state || { from: { pathname: "/users" } };
             history.push(from);
 
         }
 
     }, [context.stateAuth.user, location]);
 
+    const initialValues = {
 
-    const loginUser = (userData) => {
+        logonName: '',
+        password: ''
+    }
 
-        setLoading(true)
+    const validationSchema = Yup.object().shape({
+        logonName: Yup.string()
+            .required('Email or mobile number is required'),
+        password: Yup.string().required('Password is required')
+    });
+
+
+    function onSubmit({ logonName, password }, { setSubmitting }) {
+
+        alertService.clear()
+
+        const userData = {
+            logonName: logonName,
+            password: password
+        }
 
         loginApiCall(userData).then((res) => {
 
@@ -48,27 +66,8 @@ const Login = ({ location }) => {
 
         }).finally(() => {
 
-            setLoading(false)
+            setSubmitting(false)
         })
-
-    }
-
-
-    const onSubmit = (event) => {
-
-        event.preventDefault()
-
-        alertService.clear()
-
-        const { logonName, password } = event.target.elements
-        const userData = {
-            logonName: logonName.value,
-            password: password.value,
-        }
-
-        // since we handle the redirect within our component,
-        // we don't need to pass in this.props.history as a parameter
-        loginUser(userData);
     }
 
     return (
@@ -80,20 +79,43 @@ const Login = ({ location }) => {
 
                     <Header as='h3'>Login</Header>
 
-                    <Form onSubmit={onSubmit} loading={isLoading}>
-                        <Form.Field>
-                            <label>Email/Mobile Number</label>
-                            <input placeholder='Email/Mobile Number' name='logonName' />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Password</label>
-                            <input type="password" placeholder='Password' name='password' />
-                        </Form.Field>
+                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                        {
+                            (formik) => (
 
-                        <Button type='submit'>Login</Button>
-                    </Form>
+                                <Form onSubmit={formik.handleSubmit}>
+
+                                    <TextInput
+                                        id='form-input-control-logonName'
+                                        name='logonName'
+                                        placeholder='Email or Mobile Number'
+                                    />
+
+                                    <TextInput
+                                        id='form-input-control-password'
+                                        name='password'
+                                        placeholder='Password'
+                                        type='password'
+                                    />
+
+                                    <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
+
+                                    <Link to="login"> Cancel </Link>
+
+                                </Form>
+
+                            )
+                        }
+
+                    </Formik>
                 </Grid.Column>
             </Grid.Row>
+            <Grid.Row>
+                <Grid.Column width={8}>
+                    <Link to="forgot-password">Forgot Password?</Link>
+                </Grid.Column>
+            </Grid.Row>
+
         </Grid>
 
     )

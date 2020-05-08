@@ -16,7 +16,7 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => {
                 const user = context.stateAuth.user
 
                 if (!user) {
-                    return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                    return <Redirect to={{ pathname: '/account/login', state: { from: props.location } }} />
                 }
 
                 if (roles && roles.indexOf(user.role) === -1) {
