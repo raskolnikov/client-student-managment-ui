@@ -93,7 +93,7 @@ function Alert({ id, fade }) {
 
     return (
         <Grid>
-            
+        
             {alerts.map((alert, index) =>
 
                 <Grid.Row columns="1" key={index}>

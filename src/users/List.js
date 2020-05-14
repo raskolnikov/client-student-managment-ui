@@ -63,7 +63,7 @@ const List = () => {
 
                 setUsers(newUserList)
 
-                alertService.success({ content: 'User successfully deleted!' })
+                alertService.success({ message: 'User successfully deleted!' })
 
                 setLoading(false);
 
