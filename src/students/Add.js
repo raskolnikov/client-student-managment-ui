@@ -1,168 +1,143 @@
-import React, { useEffect, useState } from 'react';
-import Moment from 'moment';
-import { Form, Input, TextArea, Button, Select, Grid } from 'semantic-ui-react';
-import { client, history, genderOptions } from '../_helpers/';
+import React, { useState } from 'react';
+import { history, createStudentApiCall, genderOptions } from "../_helpers/";
+import { Form, Input, Button, Select, Grid } from 'semantic-ui-react';
+import { Formik } from 'formik'
+import { TextInput, SelectField } from '../_atoms'
+import { Link } from 'react-router-dom'
+import { alertService } from '../_services'
+import { convertErrorToMessage, studentFormValidationSchema } from '../_helpers'
+
+/**
+ * Created by Mehmet Aktas on 2020-04-11
+ */
 
 
-const Add = () => {
+const Add = (props) => {
 
-    const initialState = {
+    const initialValues = {
 
+        firstName: '',
+        lastName: '',
+        mobileNumber: '',
+        email: '',
+        gender: '',
+        dateOfBirth: '',
+        address: '',
+        registerDate: ''
     }
 
-    const [state, setState] = useState(initialState);
+    const validationSchema = studentFormValidationSchema(initialValues)
 
-    useEffect(() => {
+    const onSubmit = (fields, { setSubmitting }) => {
 
-        Moment.locale('en');
+        alertService.clear()
 
-    }, []);
+        const newTeacher = {
 
-    const handleSubmit = (event) => {
-
-        event.preventDefault();
-
-        const newStudentRequest = {
-
-            firstName: event.target.firstName.value,
-            lastName: event.target.lastName.value,
-            email: event.target.email.value,
-            gender: event.target.gender,
-            dateOfBirth: event.target.dateOfBirth.value,
-            registerDate: event.target.registerDate.value,
-            address: event.target.address.value,
-            mobileNumber: event.target.mobileNumber.value,
-            createdBy: event.target.createdBy.value
-
+            firstName: fields.firstName,
+            lastName: fields.lastName,
+            email: fields.email,
+            mobileNumber: fields.mobileNumber,
+            gender: fields.gender,
+            dateOfBirth: fields.dateOfBirth,
+            registerDate: fields.registerDate,
+            address: fields.address
         }
 
-        client.post("students/", newStudentRequest).then(res => {
+        createStudentApiCall(newTeacher).then(res => {
 
-            history.replace('/students/');
+            history.push("/students");
 
         }).catch(err => {
 
-            console.log(err);
+            alertService.error(convertErrorToMessage(err))
 
+        }).finally(() => {
+
+            setSubmitting(false)
         })
 
     }
 
     return (
 
-        <Grid centered columns={2}>
-            <Grid.Column>
-                <h1 style={{ marginTop: "1em" }}>Add New Student</h1>
-
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group widths='equal'>
-                        <Form.Field name='firstName'
-                            id='form-input-control-first-name'
-                            control={Input}
-                            label='First name'
-                            placeholder='First name'
-                        />
-                        <Form.Field name="lastName"
-                            id='form-input-control-last-name'
-                            control={Input}
-                            label='Last name'
-                            placeholder='Last name'
-                        />
-                        <Form.Field name="gender"
-                            control={Select}
-                            options={genderOptions}
-                            label={{ children: 'Gender', htmlFor: 'form-select-control-gender' }}
-                            placeholder='Gender'
-                            search
-                            searchInput={{ id: 'form-select-control-gender' }}
-                        />
-                    </Form.Group>
-
-                    <Form.Field name='email'
-                        id='form-input-control-error-email'
-                        control={Input}
-                        label='Email'
-                        placeholder='joe@schmoe.com'
-                    />
-
-                    <Form.Field name='address'
-                        id='form-textarea-control-opinion'
-                        control={TextArea}
-                        label='Address'
-                        placeholder='Address'
-                    />
-
-                    <Form.Field name='mobileNumber'
-                        id='form-input-control-error-mobile-number'
-                        control={Input}
-                        label='Mobile Number'
-                        placeholder='07777777777'
-                    />
-
-                    <Form.Field name='createdBy'
-                        id='form-input-control-error-created-by'
-                        control={Input}
-                        label='Created By'
-                        placeholder='David'
-                    />
+        <div className="container" data-testid="register-page">
+            <div className="row">
+                <div className="col s12">
+                    <Grid centered columns={1}>
+                        <Grid.Column>
+                            <h1 style={{ marginTop: "1em" }}>Add Student</h1>
 
 
-                    <Form.Field name='dateOfBirth' value='2010-10-17'
-                        id='form-input-control-error-date-of-birth'
-                        control={Input}
-                        label='Date Of Birth'
-                        placeholder='2010-10-17'
-                    />
+                            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                                {
+                                    (formik) => (
 
-                    <Form.Field name='registerDate' value='2010-10-17'
-                        id='form-input-control-error-register-date'
-                        control={Input}
-                        label='Register Date'
-                        placeholder='2010-10-17'
-                    />
+                                        <Form onSubmit={formik.handleSubmit}>
 
-                    <Form.Field
-                        id='form-button-control-public'
-                        control={Button}
-                        content='Confirm'
-                        label='Label with htmlFor'
-                    />
-                </Form></Grid.Column></Grid>
+                                            <TextInput
+                                                id='form-input-control-firstName'
+                                                name='firstName'
+                                                placeholder='First Name'
+                                            />
 
+                                            <TextInput
+                                                id='form-input-control-lastName'
+                                                name='lastName'
+                                                placeholder='Last Name'
+                                            />
 
+                                            <TextInput
+                                                id='form-input-control-email'
+                                                name='email'
+                                                placeholder='Email'
+                                            />
+
+                                            <TextInput
+                                                id='form-input-control-mobileNumber'
+                                                name='mobileNumber'
+                                                placeholder='Mobile Number'
+                                            />
+
+                                            <TextInput
+                                                id='form-input-control-registerDate'
+                                                name='registerDate'
+                                                placeholder='registerDate'
+                                            />
+
+                                            <TextInput
+                                                id='form-input-control-address'
+                                                name='address'
+                                                placeholder='Address'
+                                            />
+
+                                            <TextInput
+                                                id='form-input-control-dateOfBirth'
+                                                name='dateOfBirth'
+                                                placeholder='Date Of Birth'
+                                            />
+
+                                            <SelectField
+                                                id='form-input-control-gender'
+                                                name='gender'
+                                                placeholder='Gender'
+                                                options={genderOptions}
+                                            />
+
+                                            <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
+
+                                            <Link to="."> Cancel </Link>
+
+                                        </Form>
+                                    )
+                                }</Formik>
+
+                        </Grid.Column></Grid>
+                </div>
+            </div>
+        </div>
     )
+
 }
 
-
-const validate = (values) => {
-
-    const errors = {};
-    if (!values.firstName) {
-        errors.firstName = {
-            message: 'You need to provide First Name'
-        }
-    }
-    /*
-    if(!values.mobileNumber) {
-      errors.mobileNumber = {
-        message: 'You need to provide a mobile number number'
-      }
-    } else if(!/^\+(?:[0-9] ?){6,14}[0-9]$/.test(values.mobileNumber)) {
-      errors.mobileNumber = {
-        message: 'Mobile number number must be in International format'
-      }
-    }
-    */
-    if (!values.email) {
-        errors.email = {
-            message: 'You need to provide an Email address'
-        }
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = {
-            message: 'Invalid email address'
-        }
-    }
-    return errors;
-}
-
-export {Add};
+export { Add }

@@ -79,7 +79,7 @@ function Alert({ id, fade }) {
 
         const alertTypeClass = {
 
-            [AlertType.Success]: { postive: true },
+            [AlertType.Success]: { positive: true },
             [AlertType.Error]: { negative: true },
             [AlertType.Info]: { info: true },
             [AlertType.Warning]: { warning: true }
@@ -93,7 +93,7 @@ function Alert({ id, fade }) {
 
     return (
         <Grid>
-
+            
             {alerts.map((alert, index) =>
 
                 <Grid.Row columns="1" key={index}>
@@ -101,8 +101,7 @@ function Alert({ id, fade }) {
 
                         <Message floating
                             {...messageType(alert)}
-                            header={alert.message.title}
-                            content={alert.message.content}
+                            content={alert.message}
                         />
 
                     </Grid.Column></Grid.Row>

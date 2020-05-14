@@ -19,6 +19,8 @@ const ContextState = (props) => {
 
     const handleLogout = () => {
 
+        localStorage.clear()
+        
         dispatchAuthReducer({
             type: ACTION_TYPES.LOGOUT
         })

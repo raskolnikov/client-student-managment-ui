@@ -3,4 +3,4 @@ export const Role = {
     USER: 'user'
 }
 
-export const roleOptions = [{ key: "USER", value: "USER", text: "User" }, { ley: "ADMIN", value: "ADMIN", text: "Admin" }]
+export const roleOptions = [{ key: "user", value: "user", text: "User" }, { ley: "admin", value: "admin", text: "Admin" }]

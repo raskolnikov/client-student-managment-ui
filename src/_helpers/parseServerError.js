@@ -1,11 +1,8 @@
-const convertErrorToMessage = (error) => {
+function convertErrorToMessage(error){
 
     const err = error.response ? error.response.data : error; // check if server or network error
 
-    return {
-        title: err.name,
-        content: err.message,
-    }
+    return err.message
 
 }
 

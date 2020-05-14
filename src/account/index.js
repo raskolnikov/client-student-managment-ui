@@ -5,8 +5,7 @@ import { Login } from './Login'
 import { ForgotPassword } from './ForgotPassword'
 
 
-
-function Account({ history, match }) {
+function Account({ history, match, location }) {
 
     const { path } = match
     const context = useContext(Context)
@@ -14,7 +13,9 @@ function Account({ history, match }) {
     useEffect(() => {
 
         if (context.stateAuth.user) {
-            history.push('/')
+
+            const { from } = location.state || { from: { pathname: "/users" } };
+            history.push(from);
         }
 
     }, [])

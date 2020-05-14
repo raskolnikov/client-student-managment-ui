@@ -10,6 +10,30 @@ export const loginApiCall = (param) => {
 
 }
 
+export const deleteTeacherApiCall = (teacherId) => {
+
+    return axios.delete(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId).then(response => response);
+
+}
+
+export const getTeacherApiCall = (teacherId) => {
+
+    return axios.get(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId).then(response => response);
+
+}
+
+export const createTeacherApiCall = (param) => {
+
+    return axios.post(process.env.REACT_APP_API_URL + GET_TEACHERS_URL, param).then(response => response);
+
+}
+
+export const updateTeacherApiCall = (teacherId, teacher) => {
+
+    return axios.put(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId, teacher).then(response => response);
+
+}
+
 export const registerUserApiCall = (param) => {
 
     return axios.post(process.env.REACT_APP_API_URL + REGISTER_USER_URL, param).then(response => response);
@@ -29,13 +53,25 @@ export const deleteUserApiCall = (userId) => {
 }
 
 
+export const isEmailValidForUserApiCall = (param) => {
+
+    return axios.post(process.env.REACT_APP_API_URL + GET_USERS_URL + "email-validation", param).then(response => response);
+
+}
+
+export const isMobileNumberValidForUserApiCall = (param) => {
+
+    return axios.post(process.env.REACT_APP_API_URL + GET_USERS_URL + "mobile-number-validation", param).then(response => response);
+
+}
+
 export const getUserApiCall = (userId) => {
 
     return axios.get(process.env.REACT_APP_API_URL + GET_USERS_URL + userId).then(response => response);
 
 }
 
-export const forgotPasswordApiCall= (param) => {
+export const forgotPasswordApiCall = (param) => {
     return axios.post(process.env.REACT_APP_API_URL + AUTH_URL + "forgot-password", param).then(response => response);
 }
 
@@ -70,27 +106,14 @@ export const updateStudentApiCall = (studentId, student) => {
 
 }
 
+export const createStudentApiCall = (param) => {
+
+    return axios.post(process.env.REACT_APP_API_URL + GET_STUDENTS_URL, param).then(response => response);
+
+}
+
 export const getTeachersApiCall = (param) => {
 
     return axios.get(process.env.REACT_APP_API_URL + GET_TEACHERS_URL, { params: { ...param } }).then(response => response);
-
-}
-
-export const deleteTeacherApiCall = (teacherId) => {
-
-    return axios.delete(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId).then(response => response);
-
-}
-
-
-export const getTeacherApiCall = (teacherId) => {
-
-    return axios.get(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId).then(response => response);
-
-}
-
-export const updateTeacherApiCall = (teacherId, teacher) => {
-
-    return axios.put(process.env.REACT_APP_API_URL + GET_TEACHERS_URL + teacherId, teacher).then(response => response);
 
 }

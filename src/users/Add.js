@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { history, registerUserApiCall, roleOptions } from "../_helpers/";
 import { Form, Input, Button, Select, Grid } from 'semantic-ui-react';
+import { Formik } from 'formik'
+import { TextInput, SelectField } from '../_atoms'
+import { Link } from 'react-router-dom'
+import { alertService } from '../_services'
+import { convertErrorToMessage, userFormValidationSchema } from '../_helpers'
 
 /**
  * Created by Mehmet Aktas on 2020-04-11
@@ -9,27 +14,30 @@ import { Form, Input, Button, Select, Grid } from 'semantic-ui-react';
 
 const Add = (props) => {
 
-    const [errors, setErrors] = useState([]);
+    const initialValues = {
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [mobileNumber, setMobileNumber] = useState('')
-    const [password, setPassword] = useState('')
-    const [role, setRole] = useState('OFFICER')
+        firstName: '',
+        lastName: '',
+        mobileNumber: '',
+        email: '',
+        password: '',
+        role: ''
+    }
 
-    const handleSubmit = (event) => {
+    const validationSchema = userFormValidationSchema(initialValues)
 
-        event.preventDefault()
+    const onSubmit = (fields, { setSubmitting }) => {
+
+        alertService.clear()
 
         const newUser = {
 
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            mobileNumber: mobileNumber,
-            password: password,
-            role: role
+            firstName: fields.firstName,
+            lastName: fields.lastName,
+            email: fields.email,
+            mobileNumber: fields.mobileNumber,
+            password: fields.password,
+            role: fields.role
         }
 
         registerUserApiCall(newUser).then(res => {
@@ -38,7 +46,11 @@ const Add = (props) => {
 
         }).catch(err => {
 
-            setErrors(err.response.data);
+            alertService.error(convertErrorToMessage(err))
+
+        }).finally(() => {
+
+            setSubmitting(false)
         })
 
     }
@@ -52,76 +64,59 @@ const Add = (props) => {
                         <Grid.Column>
                             <h1 style={{ marginTop: "1em" }}>Add User</h1>
 
-                            <Form onSubmit={handleSubmit}>
 
-                                <Form.Field name='firstName'
-                                    id='form-input-control-first-name'
-                                    control={Input}
-                                    label='First name'
-                                    placeholder='First name'
-                                    value={firstName}
-                                    required={true}
-                                    onChange={e => setFirstName(e.target.value)}
-                                />
-                                <Form.Field name="lastName"
-                                    id='form-input-control-last-name'
-                                    control={Input}
-                                    label='Last name'
-                                    placeholder='Last name'
-                                    value={lastName}
-                                    required={true}
-                                    onChange={e => setLastName(e.target.value)}
-                                />
+                            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                                {
+                                    (formik) => (
 
-                                <Form.Field name='email'
-                                    id='form-input-control-error-email'
-                                    control={Input}
-                                    label='Email'
-                                    placeholder='joe@schmoe.com'
-                                    value={email}
-                                    required={true}
-                                    type='email'
-                                    onChange={e => setEmail(e.target.value)}
-                                />
+                                        <Form onSubmit={formik.handleSubmit}>
 
-                                <Form.Field name='mobileNumber'
-                                    id='form-input-control-error-mobile-number'
-                                    control={Input}
-                                    label='Mobile Number'
-                                    placeholder='07777777777'
-                                    value={mobileNumber}
-                                    required={true}
-                                    type='phone'
-                                    onChange={e => setMobileNumber(e.target.value)}
-                                />
+                                            <TextInput
+                                                id='form-input-control-firstName'
+                                                name='firstName'
+                                                placeholder='First Name'
+                                            />
 
-                                <Form.Field name='password'
-                                    id='form-input-control-error-password'
-                                    control={Input}
-                                    label='Password'
-                                    value={password}
-                                    type="password"
-                                    required={true}
-                                    onChange={e => setPassword(e.target.value)}
-                                />
+                                            <TextInput
+                                                id='form-input-control-lastName'
+                                                name='lastName'
+                                                placeholder='Last Name'
+                                            />
 
-                                <Form.Field name="role"
-                                    control={Select}
-                                    id="role"
-                                    options={roleOptions}
-                                    label={{ children: 'Role', htmlFor: 'form-select-control-role' }}
-                                    placeholder='Role'
-                                    required={true}
-                                    onChange={(e, { value }) => setRole(value)}
-                                />
+                                            <TextInput
+                                                id='form-input-control-email'
+                                                name='email'
+                                                placeholder='Email'
+                                            />
 
-                                <Form.Field
-                                    id='form-button-control-public'
-                                    control={Button}
-                                    content='Save'
-                                    label='Label with htmlFor'
-                                />
-                            </Form></Grid.Column></Grid>
+                                            <TextInput
+                                                id='form-input-control-mobileNumber'
+                                                name='mobileNumber'
+                                                placeholder='Mobile Number'
+                                            />
+
+                                            <TextInput
+                                                id='form-input-control-password'
+                                                name='password'
+                                                placeholder='Password'
+                                            />
+
+                                            <SelectField
+                                                id='form-input-control-role'
+                                                name='role'
+                                                placeholder='Role'
+                                                options={roleOptions}
+                                            />
+
+                                            <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
+
+                                            <Link to="."> Cancel </Link>
+
+                                        </Form>
+                                    )
+                                }</Formik>
+
+                        </Grid.Column></Grid>
                 </div>
             </div>
         </div>

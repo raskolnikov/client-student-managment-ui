@@ -90,7 +90,7 @@ const List = () => {
                     <Grid.Column>
                         <Button
                             floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/teachers/new") }}>
-                            <Icon name='teacher' /> Add Teacher
+                            <Icon /> Add Teacher
                     </Button>
                     </Grid.Column>
 

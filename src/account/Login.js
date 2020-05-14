@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Context, history, convertErrorToMessage, setAuthToken, loginApiCall } from "../_helpers/";
+import { Context, convertErrorToMessage, setAuthToken, loginApiCall } from "../_helpers/";
 import jwtDecode from 'jwt-decode'
 import { Grid, Form, Button, Header } from 'semantic-ui-react';
 import { alertService } from '../_services/'
@@ -11,17 +11,6 @@ import { TextInput } from '../_atoms'
 const Login = ({ location }) => {
 
     const context = useContext(Context)
-
-    useEffect(() => {
-
-        if (context.stateAuth.user) {
-
-            const { from } = location.state || { from: { pathname: "/users" } };
-            history.push(from);
-
-        }
-
-    }, [context.stateAuth.user, location]);
 
     const initialValues = {
 
@@ -61,7 +50,8 @@ const Login = ({ location }) => {
             context.handleLoginSuccess(currentUser)
 
         }).catch(err => {
-
+            
+           
             alertService.error(convertErrorToMessage(err))
 
         }).finally(() => {
@@ -99,8 +89,6 @@ const Login = ({ location }) => {
                                     />
 
                                     <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
-
-                                    <Link to="login"> Cancel </Link>
 
                                 </Form>
 

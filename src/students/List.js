@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Icon, Grid } from 'semantic-ui-react';
-import { getStudentsApiCall, deleteStudentApiCall } from '../_helpers/ApiCall'
-import {Context,history} from "../_helpers/";
-import { getUrlParam } from '../_helpers/setUrlParams'
+import { Context, history, getStudentsApiCall, deleteStudentApiCall, getUrlParam } from "../_helpers/";
 import StudentTable from '../_components/StudentTable'
 import FilterTable from '../_components/FilterTable'
 import confirmService from '../_helpers/confirmService';
@@ -109,4 +107,4 @@ const List = () => {
     )
 }
 
-export {List}
+export { List }
