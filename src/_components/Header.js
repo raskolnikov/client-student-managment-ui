@@ -1,41 +1,82 @@
 import React, { useEffect, useState, Fragment, useContext } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 import { Context, Role } from "../_helpers/";
-import { Button } from 'semantic-ui-react';
+import { Button, Menu } from 'semantic-ui-react';
 
 
 const Header = () => {
 
     const context = useContext(Context)
     const [user, setUser] = useState(null)
+    const [activeItem, setActiveItem] = useState('bio')
 
     useEffect(() => {
 
         setUser(context.stateAuth.user)
-        
+
     }, [context.stateAuth.user])
 
     if (!user) {
-        return null
+         return null
+    }
+    
+    const role = user.role.toLowerCase()
+
+    const handleItemClick = (e, { name }) => {
+
+        setActiveItem(name)
+
     }
 
-    const role = user.role.toLowerCase()
 
     return (
 
         <Fragment>
 
-            <div className="ui four item menu">
+            <Menu fluid vertical tabular>
+                <Menu.Item as={NavLink}
+                    to='/students'
+                    name='students'
+                />
+                <Menu.Item
+                    as={NavLink}
+                    to='/teachers'
+                    name='teachers'
+                />
 
-                <NavLink className="item" to='/students'>Students</NavLink>
-                <NavLink className="item" to='/teachers'> Teachers</NavLink>
+                <Menu.Item
+                    as={NavLink}
+                    to='/courses'
+                    name='courses'
+                />
+
+                <Menu.Item
+                    as={NavLink}
+                    to='/exams'
+                    name='exams'
+                />
+
+                <Menu.Item
+                    as={NavLink}
+                    to='/reports'
+                    name='reports'
+                />
+
                 {role === Role.ADMIN && (
 
-                    <NavLink className="item" to='/users'> Users</NavLink>
+                    <Menu.Item
+                        as={NavLink}
+                        to='/users'
+                        name='users'
+                    />
                 )}
-                <Button className="item red" onClick={context.handleLogout}> Logout</Button>
 
-            </div>
+                <Menu.Item
+                    className="item red"
+                    name='Logout'
+                    onClick={context.handleLogout}
+                />
+            </Menu>
 
         </Fragment>
     )

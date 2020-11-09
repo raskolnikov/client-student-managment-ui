@@ -1,20 +1,26 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router'
 import { List } from './List'
-import { Add } from './Add'
 import { Edit } from './Edit'
+import { Add } from './Add'
 
-const Users = ({ match }) => {
-    const { path } = match;
+const Courses = ({ match }) => {
+
+    const { path } = match
+
     return (
-        
+
         <Switch>
+
             <Route exact path={path} component={List} />
             <Route path={`${path}/new`} component={Add} />
             <Route path={`${path}/edit/:id`} component={Edit} />
+
         </Switch>
-    );
+
+    )
 
 }
 
-export { Users }
+
+export { Courses }

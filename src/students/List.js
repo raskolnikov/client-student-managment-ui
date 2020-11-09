@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Icon, Grid } from 'semantic-ui-react';
-import { Context, history, getStudentsApiCall, deleteStudentApiCall, getUrlParam } from "../_helpers/";
+import { Context, history, getStudentsApiCall, deleteStudentApiCall, getUrlParam, convertErrorToMessage } from "../_helpers/";
 import StudentTable from '../_components/StudentTable'
 import FilterTable from '../_components/FilterTable'
 import confirmService from '../_helpers/confirmService';
+import { alertService } from '../_services'
 
 /**
  * Created by Mehmet Aktas on 2020-03-10
@@ -28,11 +29,12 @@ const List = () => {
 
             setStudents(res.data);
 
-            setLoading(false);
-
         }).catch(err => {
 
-            context.flashErrorMessage(err)
+            alertService.error(convertErrorToMessage(err))
+
+        }).finally(() => {
+
             setLoading(false);
 
         })
@@ -90,7 +92,7 @@ const List = () => {
                             floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/students/new") }}>
                             <Icon name='student' /> Add Student
                     </Button>
-                    </Grid.Column>
+                </Grid.Column>
 
                 </Grid.Row>
 

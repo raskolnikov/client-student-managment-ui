@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react'
 import { Button, Icon, Grid } from 'semantic-ui-react';
-import { getUsersApiCall, deleteUserApiCall } from '../_helpers/ApiCall'
-import { Context, history } from "../_helpers/";
+import { getExamsApiCall, deleteExamApiCall } from '../_helpers/ApiCall'
+import { history } from "../_helpers/";
 import { getUrlParam } from '../_helpers/setUrlParams'
-import UserTable from '../_components/UserTable'
+import ExamTable from '../_components/ExamTable'
 import FilterTable from '../_components/FilterTable'
 import confirmService from '../_helpers/confirmService';
 import { alertService } from '../_services/alert.service'
 import { convertErrorToMessage } from '../_helpers/parseServerError'
 
 
-/**
- * Created by Mehmet Aktas on 2020-03-10
- */
-
 const List = () => {
 
-    const context = useContext(Context);
-
-    const [users, setUsers] = useState([]);
+    const [exams, setExams] = useState([])
     const [isLoading, setLoading] = useState(false);
     const initialPage = parseInt(getUrlParam("page") || 1)
     const initalStatus = getUrlParam("status") || "ACTIVE"
@@ -29,15 +23,15 @@ const List = () => {
     useEffect(() => {
 
         setLoading(true);
-        getUsersApiCall(filterParams).then(res => {
+        getExamsApiCall(filterParams).then(res => {
 
-            setUsers(res.data);
-
-            setLoading(false);
+            setExams(res.data);
 
         }).catch(err => {
 
             alertService.error(convertErrorToMessage(err))
+
+        }).finally(() => {
 
             setLoading(false);
 
@@ -45,37 +39,38 @@ const List = () => {
 
     }, [filterParams])
 
-    const deleteUser = async (user) => {
+
+    const deleteExam = async (exam) => {
 
         const result = await confirmService.show({
-            message: 'Are you sure of delete this user?'
+            message: 'Are you sure of delete this exam?'
         })
 
         if (result) {
 
-            let userId = user.id;
+            let examId = exam.id;
 
             setLoading(true);
 
-            deleteUserApiCall(user.id).then(res => {
+            deleteExamApiCall(exam.id).then(res => {
 
-                let newUserList = users.filter(user => user.id !== userId)
+                let newExamList = exams.filter(exam => exam.id !== examId)
 
-                setUsers(newUserList)
+                setExams(newExamList)
 
-                alertService.success({ message: 'User successfully deleted!' })
-
-                setLoading(false);
+                alertService.success({ message: 'Exam successfully deleted!' })
 
             }).catch(err => {
 
                 alertService.error(convertErrorToMessage(err))
+
+            }).finally(() => {
+
                 setLoading(false);
 
             })
         }
     }
-
 
     const onChangeFilter = (filter) => {
 
@@ -94,8 +89,8 @@ const List = () => {
                     </Grid.Column>
                     <Grid.Column>
                         <Button
-                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/users/new") }}>
-                            <Icon name='user' /> Add User
+                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/exams/new") }}>
+                            Add Exam
                     </Button>
                     </Grid.Column>
 
@@ -103,7 +98,7 @@ const List = () => {
 
                 <Grid.Row columns='1'>
                     <Grid.Column>
-                        <UserTable users={users} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteUser={deleteUser} onChangeFilter={onChangeFilter} />
+                        <ExamTable exams={exams} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteExam={deleteExam} onChangeFilter={onChangeFilter} />
                     </Grid.Column>
                 </Grid.Row>
 
@@ -112,6 +107,10 @@ const List = () => {
         </React.Fragment>
 
     )
+
+
 }
+
+
 
 export { List }

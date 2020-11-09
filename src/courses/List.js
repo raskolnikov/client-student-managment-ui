@@ -1,43 +1,38 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react'
 import { Button, Icon, Grid } from 'semantic-ui-react';
-import { getUsersApiCall, deleteUserApiCall } from '../_helpers/ApiCall'
-import { Context, history } from "../_helpers/";
+import { getCoursesApiCall, deleteCourseApiCall } from '../_helpers/ApiCall'
+import { history } from "../_helpers/";
 import { getUrlParam } from '../_helpers/setUrlParams'
-import UserTable from '../_components/UserTable'
+import CourseTable from '../_components/CourseTable'
 import FilterTable from '../_components/FilterTable'
 import confirmService from '../_helpers/confirmService';
 import { alertService } from '../_services/alert.service'
 import { convertErrorToMessage } from '../_helpers/parseServerError'
 
 
-/**
- * Created by Mehmet Aktas on 2020-03-10
- */
-
 const List = () => {
 
-    const context = useContext(Context);
-
-    const [users, setUsers] = useState([]);
+    const [courses, setCourses] = useState([])
     const [isLoading, setLoading] = useState(false);
     const initialPage = parseInt(getUrlParam("page") || 1)
     const initalStatus = getUrlParam("status") || "ACTIVE"
     const initalSearchValue = getUrlParam("search") || ''
+    const initalLimit = getUrlParam("limit") || "24"
 
-    const [filterParams, setFilterParam] = useState({ offset: initialPage - 1, status: initalStatus, search: initalSearchValue })
+    const [filterParams, setFilterParam] = useState({ offset: initialPage - 1, limit: initalLimit, status: initalStatus, search: initalSearchValue })
 
     useEffect(() => {
 
         setLoading(true);
-        getUsersApiCall(filterParams).then(res => {
+        getCoursesApiCall(filterParams).then(res => {
 
-            setUsers(res.data);
-
-            setLoading(false);
+            setCourses(res.data);
 
         }).catch(err => {
 
             alertService.error(convertErrorToMessage(err))
+
+        }).finally(() => {
 
             setLoading(false);
 
@@ -45,37 +40,38 @@ const List = () => {
 
     }, [filterParams])
 
-    const deleteUser = async (user) => {
+
+    const deleteCourse = async (course) => {
 
         const result = await confirmService.show({
-            message: 'Are you sure of delete this user?'
+            message: 'Are you sure of delete this course?'
         })
 
         if (result) {
 
-            let userId = user.id;
+            let examId = course.id;
 
             setLoading(true);
 
-            deleteUserApiCall(user.id).then(res => {
+            deleteCourseApiCall(course.id).then(res => {
 
-                let newUserList = users.filter(user => user.id !== userId)
+                let newCourseList = courses.filter(course => course.id !== examId)
 
-                setUsers(newUserList)
+                setCourses(newCourseList)
 
-                alertService.success({ message: 'User successfully deleted!' })
-
-                setLoading(false);
+                alertService.success({ message: 'Course successfully deleted!' })
 
             }).catch(err => {
 
                 alertService.error(convertErrorToMessage(err))
+
+            }).finally(() => {
+
                 setLoading(false);
 
             })
         }
     }
-
 
     const onChangeFilter = (filter) => {
 
@@ -94,8 +90,8 @@ const List = () => {
                     </Grid.Column>
                     <Grid.Column>
                         <Button
-                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/users/new") }}>
-                            <Icon name='user' /> Add User
+                            floated='right' icon labelPosition='left' primary size='small' onClick={() => { history.push("/courses/new") }}>
+                            <Icon name='course' /> Add Course
                     </Button>
                     </Grid.Column>
 
@@ -103,7 +99,7 @@ const List = () => {
 
                 <Grid.Row columns='1'>
                     <Grid.Column>
-                        <UserTable users={users} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteUser={deleteUser} onChangeFilter={onChangeFilter} />
+                        <CourseTable courses={courses} currentPage={filterParams.offset + 1} isLoading={isLoading} deleteCourse={deleteCourse} onChangeFilter={onChangeFilter} />
                     </Grid.Column>
                 </Grid.Row>
 
@@ -112,6 +108,10 @@ const List = () => {
         </React.Fragment>
 
     )
+
+
 }
+
+
 
 export { List }
