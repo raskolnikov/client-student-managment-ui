@@ -192,9 +192,9 @@ export const getStudentCourseApiCall = (studentCourseId) => {
 
 }
 
-export const createStudentCourseApiCall = (param) => {
+export const createStudentCourseApiCall = (studentId, param) => {
 
-    return axios.post(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + GET_COURSES_URL, param).then(response => response);
+    return axios.post(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + studentId + '/' + GET_COURSES_URL, param).then(response => response);
 
 }
 
@@ -209,3 +209,35 @@ export const getStudentCoursesApiCall = (studentId) => {
     return axios.get(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + studentId + '/' + GET_COURSES_URL).then(response => response);
 
 }
+
+
+export const deleteStudentExamApiCall = (studentExamId) => {
+
+    return axios.delete(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + GET_COURSES_URL + studentExamId).then(response => response);
+
+}
+
+export const getStudentExamApiCall = (studentExamId) => {
+
+    return axios.get(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + GET_COURSES_URL + studentExamId).then(response => response);
+
+}
+
+export const createStudentExamApiCall = (studentId, param) => {
+
+    return axios.post(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + studentId + '/' + GET_COURSES_URL, param).then(response => response);
+
+}
+
+export const updateStudentExamApiCall = (studentExamId, studentExam) => {
+
+    return axios.put(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + GET_COURSES_URL + studentExamId, studentExam).then(response => response);
+
+}
+
+export const getStudentExamsApiCall = (studentId) => {
+
+    return axios.get(process.env.REACT_APP_API_URL + API_BASE_URL + GET_STUDENTS_URL + studentId + '/' + GET_COURSES_URL).then(response => response);
+
+}
+

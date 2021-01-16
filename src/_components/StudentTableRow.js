@@ -12,6 +12,7 @@ const StudentTableRow = ({ student, onClickDelete }) => {
             <Table.Cell>{student.lastName}</Table.Cell>
             <Table.Cell>{student.mobileNumber}</Table.Cell>
             <Table.Cell>{student.email}</Table.Cell>
+            <Table.Cell>{student.status}</Table.Cell>
 
             <Table.Cell>
                 <div className="ui two buttons">

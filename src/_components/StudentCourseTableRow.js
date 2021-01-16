@@ -8,13 +8,13 @@ const StudentCourseTableRow = ({ studentCourse, onClickDelete }) => {
     return (
 
         <Table.Row>
-            <Table.Cell>{studentCourse.course.name}</Table.Cell>
+            <Table.Cell>{studentCourse.course.courseName}</Table.Cell>
             <Table.Cell>{studentCourse.educationTerm}</Table.Cell>
             <Table.Cell>{studentCourse.status}</Table.Cell>
 
             <Table.Cell>
                 <div className="ui two buttons">
-                    <Link to={`/students/courses/edit/${studentCourse.id}`} className="ui basic button green">Edit</Link>
+                    <Link to={`/students/${studentCourse.studentId}/courses/${studentCourse.id}/edit`} className="ui basic button green">Edit</Link>
                     <Button basic color="red" onClick={() => onClickDelete(studentCourse)}>Delete</Button>
                 </div>
             </Table.Cell>
@@ -27,7 +27,7 @@ const StudentCourseTableRow = ({ studentCourse, onClickDelete }) => {
 
 StudentCourseTableRow.propTypes = {
 
-    studentCourse: PropTypes.object.isRequired,
+    studentExam: PropTypes.object.isRequired,
     onClickDelete: PropTypes.func.isRequired
 
 }

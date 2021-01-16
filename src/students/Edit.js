@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Form, Button } from 'semantic-ui-react'
-import { genderOptions, getStudentApiCall, updateStudentApiCall, convertErrorToMessage, studentFormValidationSchema } from '../_helpers/'
+import { genderOptions, statusOptions, getStudentApiCall, updateStudentApiCall, convertErrorToMessage, studentFormValidationSchema } from '../_helpers/'
 import { alertService } from '../_services'
 import { Formik } from 'formik'
 import { TextInput, SelectField } from '../_atoms'
 import { Link } from 'react-router-dom'
 import { List as StudentCoursesList } from './courses/List'
+import { List as StudentExamsList } from './exams/List'
+import { Fragment } from 'react'
 
 
 const Edit = (props) => {
@@ -19,14 +21,14 @@ const Edit = (props) => {
         lastName: '',
         mobileNumber: '',
         email: '',
-        gender: '',
+        gender: genderOptions[0],
         dateOfBirth: '',
         registerDate: '',
-        address: ''
+        address: '',
+        status: statusOptions[0]
     }
 
     const [initialStudent, setiInitialStudent] = useState(initialValues)
-
     const validationSchema = studentFormValidationSchema(initialStudent)
 
 
@@ -43,6 +45,7 @@ const Edit = (props) => {
             initialValues.dateOfBirth = res.data.dateOfBirth
             initialValues.registerDate = res.data.registerDate
             initialValues.address = res.data.address
+            initialValues.status = res.data.status
 
             setiInitialStudent(initialValues)
 
@@ -70,7 +73,8 @@ const Edit = (props) => {
             gender: fields.gender,
             dateOfBirth: fields.dateOfBirth,
             registerDate: fields.registerDate,
-            address: fields.address
+            address: fields.address,
+            status: fields.status
         }
 
         updateStudentApiCall(studentId, student).then(res => {
@@ -91,90 +95,99 @@ const Edit = (props) => {
 
     return (
 
-        <Grid>
+        <Fragment>
+            <Grid>
 
-            <Grid.Row columns={1}>
+                <Grid.Row columns={1}>
 
-                <Grid.Column>
-                    <h1 style={{ marginTop: "1em" }}>Edit Student</h1>
-
-
-                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                        {
-                            (formik) => (
-
-                                <Form onSubmit={formik.handleSubmit}>
-
-                                    <TextInput
-                                        id='form-input-control-firstName'
-                                        name='firstName'
-                                        placeholder='First Name'
-                                    />
-
-                                    <TextInput
-                                        id='form-input-control-lastName'
-                                        name='lastName'
-                                        placeholder='Last Name'
-                                    />
-
-                                    <TextInput
-                                        id='form-input-control-email'
-                                        name='email'
-                                        placeholder='Email'
-                                    />
-
-                                    <TextInput
-                                        id='form-input-control-mobileNumber'
-                                        name='mobileNumber'
-                                        placeholder='Mobile Number'
-                                    />
-
-                                    <TextInput
-                                        id='form-input-control-registerDate'
-                                        name='registerDate'
-                                        placeholder='Register Date'
-                                    />
-
-                                    <TextInput
-                                        id='form-input-control-address'
-                                        name='address'
-                                        placeholder='Address'
-                                    />
+                    <Grid.Column>
+                        <h1 style={{ marginTop: "1em" }}>Edit Student</h1>
 
 
-                                    <TextInput
-                                        id='form-input-control-dateOfBirth'
-                                        name='dateOfBirth'
-                                        placeholder='Date Of Birth'
-                                    />
+                        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                            {
+                                (formik) => (
 
-                                    <SelectField
-                                        id='form-input-control-gender'
-                                        name='gender'
-                                        placeholder='Gender'
-                                        options={genderOptions}
-                                    />
+                                    <Form onSubmit={formik.handleSubmit}>
 
-                                    <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
+                                        <TextInput
+                                            id='form-input-control-firstName'
+                                            name='firstName'
+                                            placeholder='First Name'
+                                        />
 
-                                    <Link to="."> Cancel </Link>
+                                        <TextInput
+                                            id='form-input-control-lastName'
+                                            name='lastName'
+                                            placeholder='Last Name'
+                                        />
 
-                                </Form>
-                            )
-                        }</Formik>
+                                        <TextInput
+                                            id='form-input-control-email'
+                                            name='email'
+                                            placeholder='Email'
+                                        />
 
-                </Grid.Column>
+                                        <TextInput
+                                            id='form-input-control-mobileNumber'
+                                            name='mobileNumber'
+                                            placeholder='Mobile Number'
+                                        />
 
-            </Grid.Row>
+                                        <TextInput
+                                            id='form-input-control-registerDate'
+                                            name='registerDate'
+                                            placeholder='Register Date'
+                                        />
 
-            <Grid.Row columns='1'>
-                <Grid.Column>
-                    <StudentCoursesList studentId={studentId} />
-                </Grid.Column>
-            </Grid.Row>
+                                        <TextInput
+                                            id='form-input-control-address'
+                                            name='address'
+                                            placeholder='Address'
+                                        />
 
-        </Grid>
+                                        <TextInput
+                                            id='form-input-control-dateOfBirth'
+                                            name='dateOfBirth'
+                                            placeholder='Date Of Birth'
+                                        />
 
+                                        <SelectField
+                                            id='form-input-control-gender'
+                                            name='gender'
+                                            placeholder='Gender'
+                                            options={genderOptions}
+                                        />
+
+                                        <SelectField
+                                            id='form-input-control-status'
+                                            name='status'
+                                            placeholder='Status'
+                                            options={statusOptions}
+                                        />
+
+                                        <Button loading={formik.isSubmitting} type='submit'>Submit</Button>
+
+                                        <Link to="."> Cancel </Link>
+
+                                    </Form>
+                                )
+                            }</Formik>
+
+                    </Grid.Column>
+
+                </Grid.Row>
+            </Grid>
+
+            <Grid>
+                <Grid.Row columns='1'>
+                    <Grid.Column>
+                        <StudentCoursesList studentId={studentId} />
+                    </Grid.Column>
+                </Grid.Row>
+
+            </Grid>
+        </Fragment>
     )
 
 }

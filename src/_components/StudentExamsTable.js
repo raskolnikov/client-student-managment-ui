@@ -1,21 +1,19 @@
 import React, { Fragment } from 'react'
 import { Table, Loader } from 'semantic-ui-react'
-import StudentTableRow from './StudentTableRow'
 import CustomPagination from './CustomPagination'
+import StudentExamTableRow from './StudentCourseTableRow'
 
-const StudentTable = ({ isLoading, students, deleteStudent, currentPage, onChangeFilter }) => {
+const StudentExamsTable = ({ isLoading, studentExams, deleteStudentExam, currentPage, onChangeFilter }) => {
 
-    const totalCount = students.length
+    const totalCount = studentExams.length
 
     return (
         <Fragment>
             <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>First Name</Table.HeaderCell>
-                        <Table.HeaderCell>Last Name</Table.HeaderCell>
-                        <Table.HeaderCell>Mobile</Table.HeaderCell>
-                        <Table.HeaderCell>Email</Table.HeaderCell>
+                        <Table.HeaderCell>Course Name</Table.HeaderCell>
+                        <Table.HeaderCell>Education Term</Table.HeaderCell>
                         <Table.HeaderCell>Status</Table.HeaderCell>
                         <Table.HeaderCell>Action</Table.HeaderCell>
                     </Table.Row>
@@ -24,9 +22,9 @@ const StudentTable = ({ isLoading, students, deleteStudent, currentPage, onChang
                 <Table.Body>
 
                     {(
-                        students.map(student => {
+                        studentExams.map(studentExam => {
 
-                            return <StudentTableRow student={student} key={student.id} onClickDelete={deleteStudent} />
+                            return <StudentExamTableRow studentExam={studentExam} key={studentExam.id} onClickDelete={deleteStudentExam} />
 
                         })
                     )}
@@ -52,4 +50,4 @@ const StudentTable = ({ isLoading, students, deleteStudent, currentPage, onChang
 }
 
 
-export default StudentTable
+export { StudentExamsTable }

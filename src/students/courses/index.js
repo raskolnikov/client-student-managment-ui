@@ -5,7 +5,7 @@ import { List } from './List'
 import { Edit } from './Edit'
 
 const Courses = ({ match }) => {
-
+    
     const { path } = match
 
     return (
@@ -14,7 +14,7 @@ const Courses = ({ match }) => {
 
             <Route exact path={path} component={List} />
             <Route path={`${path}/new`} component={Add} />
-            <Route path={`${path}/edit/:id`} component={Edit} />
+            <Route path={`${path}/:id/edit`} component={Edit} />
 
         </Switch>
     )

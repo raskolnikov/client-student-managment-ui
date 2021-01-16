@@ -11,6 +11,7 @@ const Teachers = ({ match }) => {
             <Route exact path={path} component={List} />
             <Route path={`${path}/new`} component={Add} />
             <Route path={`${path}/edit/:id`} component={Edit} />
+           
         </Switch>
     );
 

@@ -13,7 +13,6 @@ const DashBoard = () => {
         console.log("Connected!!")
     }
 
-
     const onMessageReceived = (msg) => {
 
         console.log('New Message Received!!', msg);
